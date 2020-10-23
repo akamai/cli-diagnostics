@@ -12,8 +12,7 @@ $ akamai install diagnostics
 ```
 
 You may also use this as a stand-alone command by downloading the
-[latest release binary](https://github.com/akamai/cli-diagnostic-tools/releases)
-for your system, or by cloning this repository and compiling it yourself.
+[latest release binary](https://github.com/akamai/cli-diagnostic-tools/releases) for your system, or by cloning this repository and compiling it yourself.
 
 ### Compiling from Source (when on github)
 
@@ -66,95 +65,95 @@ If you want to compile the package from source, you will need Go 1.13 or later i
 ## Commands
 ----
 - ### verify-ip
-    This tool confirms if a certain IP address is that of an edge server
+    Verifies whether the specified IP address is part of the Akamai edge network.
     ```
-    $akamai-diagnostics verify-ip <IP address>
+    $akamai diagnostics verify-ip <IP address>
     ```
 
 - ### locate-ip
-    This tool provides the geographic and network location of any IP address.
+    Provides the geographic and network location of an IP address within the Akamai network.
     ```
-    $akamai-diagnostics locate-ip <IP address>
+    $akamai diagnostics locate-ip <IP address>
     ```
 
 - ### dig
-    This tool uses the DIG command to provide Domain Name Server (DNS) details for the location of the edge server and hostname or domain name, enabling you to diagnose issues with domain name resolution.
+    Runs DIG on a hostname or a domain name to return DNS details for the location of an Akamai edge server and the hostname or the domain name. You can use it to diagnose issues with the DNS resolution.
     ```
-    $akamai-diagnostics dig <Domain name/ Hostname> <Source server location/ Edge server IP> [-t Query Type]
+    $akamai diagnostics dig <Domain name/Hostname> <Ghost location/edge server IP address> [--type Query type]
     ```
 
 - ### mtr
-    This tool uses the MTR command to provide information about the route, number of hops, and time that Internet traffic packets take between the edge server and a remote host or destination. The results can show you where network delays are being introduced in the path.
+    Runs MTR to check connectivity between an Akamai edge server and a remote host or destination. You can use it to diagnose network delays issues.
     ```
-    $akamai-diagnostics mtr <Domain name/ Destination IP> <Source server location/ Edge server IP> [--resolve-host]
+    $akamai diagnostics mtr <Domain Name/Destination IP> <Ghost location/edge server IP address> [--resolve-hostname]
     ```
 
 
 - ### translate-url
-    This tool provides basic information about a specified URL, such as typecode, origin server, CP code, serial number, and TTL for a URL/ARL.
+    Provides high-level information about an Akamai-optimized URL (ARL), such as its time to live, origin server, and associated CP code.
     ```
-    $akamai-diagnostics translate-url <URL>
+    $akamai diagnostics translate-url <URL>
     ```
 
 - ### translate-error-string
-    This tool uses the error string from the reference number to fetch a summary and log information for the error that occurred in the original request.
+    Provides information about an error string from the reference number produced by Akamai edge servers when a request to retrieve content fails.
     ```
-    $akamai-diagnostics translate-error-string <Error string>
+    $akamai diagnostics translate-error-string <error string>
     ```
 
 - ### curl
-    This tool uses the CURL command to provide the raw html for a specified URL. Making an HTTP request from an edge server lets you gather information about the HTTP response.
+    Runs CURL to provide a raw HTML for a URL within the Akamai network. You can use it to gather information about the HTTP response.
     ```
-    $akamai-diagnostics curl <URL> <Source server location/ Edge server IP> [--user-agent Additional user agent]
+    $akamai diagnostics curl <URL> <Ghost Location/edge server IP address> [--user-agent Additional user agent]
     ```
 
 - ### debug-url
-    This tool provides DNS Information, HTTP Response, Response Header, and Logs for a URL/ARL.
+    Provides DNS information, HTTP response, response headers, and logs for a URL on Akamai edge servers.
     ```
-    $akamai-diagnostics debug-url <URL> [--edge-ip Edge server IP] [--header Request header]
+    $akamai diagnostics debug-url <URL> [--edge-ip Edge IP address] [--header headername:value]
     ```
 
 - ### estats
-    This tool provides an understanding of the errors happening in the delivery of websites based on real-time data of traffic of a particular CP code in terms of traffic from clients to edge servers and from edge servers to origin.
+    Provides error statistics on a CP code’s traffic from clients to Akamai edge servers and from Akamai edge servers to origin.
     ```
-    $akamai-diagnostics estats <URL/ CP code>	
+    $akamai diagnostics estats <URL/CP Code>	
     ```
 
 - ### grep
-    This tool uses the GREP command to retrieve and parse logs from an edge server IP address, within the last 48 hours
+    Runs GREP to retrieve and parse logs for an IP address within the Akamai network using flags to filter the data. Data is available for 48 hours after the traffic occurs.
     ```
-    $akamai-diagnostics grep <Edge server IP> <--end-date Date> <--end-time Time> <--duration Duration> [--find-in Header:Value] [--max-lines Maximum log lines to display] <-r|-f|-rf> 
+    $akamai diagnostics grep <Edge server IP> <--end-date Date> <--end-time Time> <--duration Duration> [--find-in Header:Value ...] [--max-lines Maximum log lines to display] <-r | -f | -rf> 
     ```
 
 - ### ghost-locations
-    Lists active Akamai edge server locations from which you can run diagnostic tools. Use any id value from the response object for use in other ghost location-based operations.
+    Lists active Akamai edge server locations from which you can run diagnostic tools.
     ```
-    $akamai-diagnostics ghost-locations [--search location]
+    $akamai diagnostics ghost-locations [--search location]
     ```
 
 - ### user-diagnostics-create-group
-    Create group to get user sharable link.
+    Creates a group for a hostname you want to gather diagnostic data for. It also generates a diagnostic link that you can send to end users of the group’s hostname or URL. When end users click the link, the tool gathers necessary diagnostic data to submit.
     ```
-    $akamai-diagnostics user-diagnostics create-group <Group Name> <Hostname> [flags]
+    $akamai diagnostics user-diagnostics create-group <Group Name> <Hostname>
     ```
 
 - ### user-diagnostics-get
-    get end user diagnostics result by Id.
+    Lists end users' diagnostic data submitted using a diagnostic link.
     ```
-    akamai-diagnostics user-diagnostics get <Diagnostics Link Id> [flags]
+    akamai diagnostics user-diagnostics get <Diagnostics Link Id>
     ```
 
  - ### user-diagnostics-list   
-    List all the End User Diagnostic Data.
+    Lists all groups created to gather diagnostic data of end users of hostnames experiencing issues together with the generated links and number of collected data.
     ```
-    akamai-diagnostics user-diagnostics list [flags]
+    akamai diagnostics user-diagnostics list
     ```
 
 ### Global Flags
 ----
-- ```--edgerc value```    Location of the credentials file  
-- ```--section value```    Section of the credentials file 
-- ```--force-color```    Force color to output, when the output is piped or redirected to text file
-- ```--json```  Get json output
+- ```--edgerc value```    Location of the edgegrid credentials file.
+- ```--section value```    Section name in the credentials file.
+- ```--force-color```    Force color to non-tty output.
+- ```--json```  Get JSON output.
 
 

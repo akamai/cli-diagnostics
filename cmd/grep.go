@@ -79,7 +79,7 @@ var grepCmd = &cobra.Command{
 		logType := "r"
 		Url, _ := url.Parse(fmt.Sprintf("/diagnostic-tools/v2/ip-addresses/%s/log-lines", args[0]))
 
-		validQueries := []string{"Host Header", "User Agent", "HTTP Status Code", "ARL", "CP Code", "Client IP"}
+		validQueries := []string{"host-header", "user-agent", "http-status-code", "arl", "cp-code", "client-ip"}
 		for _, str := range findInFlag {
 			kv := strings.SplitN(str, ":", 2)
 			if len(kv) != 2 {
@@ -93,13 +93,25 @@ var grepCmd = &cobra.Command{
 			for _, q := range validQueries {
 				if strings.ToLower(q) == strings.ToLower(qType) {
 					matched = true
-					parameters.Add(q, searchFor)
+					if "host-header" == strings.ToLower(q) {
+						parameters.Add("hostHeader", searchFor)
+					} else if "user-agent" == strings.ToLower(q) {
+						parameters.Add("userAgent", searchFor)
+					} else if "http-status-code" == strings.ToLower(q) {
+						parameters.Add("httpStatusCode", searchFor)
+					} else if "arl" == strings.ToLower(q) {
+						parameters.Add("arl", searchFor)
+					} else if "cp-code" == strings.ToLower(q) {
+						parameters.Add("cpcode", searchFor)
+					} else if "client-ip" == strings.ToLower(q) {
+						parameters.Add("clientIp", searchFor)
+					}
 					break
 				}
 			}
 
 			if !matched {
-				printWarning("Invalild query field" + qType)
+				printWarning("Invalid query field " + qType)
 				fmt.Println("Valid Query fields:", strings.Join(validQueries, ", "))
 				os.Exit(1)
 			}

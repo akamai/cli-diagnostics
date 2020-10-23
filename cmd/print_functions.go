@@ -359,7 +359,8 @@ func printResponseError(byt *[]byte) {
 	}
 	printWarning(errorStruct.Detail)
 	for _, err := range errorStruct.Errors {
-		fmt.Println(err["error"])
+		printWarning(err["error"])
+		//fmt.Println(err["error"])
 	}
 	os.Exit(1)
 }

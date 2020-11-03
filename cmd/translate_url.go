@@ -25,8 +25,8 @@ import (
 
 // translateUrlCmd represents the translateUrl command
 var translateUrlCmd = &cobra.Command{
-	Use:     "translate-url <URL>",
-	Aliases: []string{"translateUrl,translateurl"},
+	Use:     translateUrlUse,
+	Aliases: []string{"translateUrl", "translateurl"},
 	Args:    cobra.ExactArgs(1),
 	Short:   translateUrlShortDescription,
 	Long:    translateUrlLongDescription,

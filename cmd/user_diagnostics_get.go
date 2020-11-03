@@ -25,7 +25,7 @@ import (
 
 // getCmd represents the get command
 var getCmd = &cobra.Command{
-	Use:   "get <Diagnostics Link Id>",
+	Use:   userDiagnosticsGetUse,
 	Short: userDiagnosticsGetShortDescription,
 	Args:  cobra.ExactArgs(1),
 	Long:  userDiagnosticsGetLongDescription,

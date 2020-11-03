@@ -24,7 +24,7 @@ import (
 
 // translateErrorCmd represents the translateError command
 var translateErrorCmd = &cobra.Command{
-	Use:     "translate-error-string <error string>",
+	Use:     translateErrorUse,
 	Aliases: []string{"translateErrorString", "translate-error", "tes", "translateError", "translateerror"},
 	Args:    cobra.ExactArgs(1),
 	Short:   translateErrorShortDescription,

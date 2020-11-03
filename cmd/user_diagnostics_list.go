@@ -24,7 +24,7 @@ import (
 
 // listCmd represents the list command
 var userDiagnosticsListCmd = &cobra.Command{
-	Use:     "list",
+	Use:     userDiagnosticsListUse,
 	Aliases: []string{"ls"},
 	Short:   userDiagnosticsListShortDescription,
 	Long:    userDiagnosticsListLongDescription,

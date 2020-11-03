@@ -26,7 +26,7 @@ import (
 var searchString string
 
 var ghostLocationsCmd = &cobra.Command{
-	Use:     "ghost-locations",
+	Use:     ghostLocationUse,
 	Aliases: []string{"ghostLocations", "ghostlocations"},
 	Short:   ghostLocationShortDescription,
 	Long:    ghostLocationLongDescription,
@@ -36,6 +36,7 @@ var ghostLocationsCmd = &cobra.Command{
 
 		if resp.StatusCode == 200 {
 			var respStruct GhostLocationsList
+			var respStructFiltered GhostLocationsList
 
 			err := json.Unmarshal(*byt, &respStruct)
 			if err != nil {
@@ -44,7 +45,12 @@ var ghostLocationsCmd = &cobra.Command{
 			}
 
 			if jsonString {
-				resJson, _ := json.MarshalIndent(respStruct, "", "  ")
+				for _, loc := range respStruct.Locations {
+					if strings.Contains(strings.ToLower(loc["id"]), searchString) {
+						respStructFiltered.Locations = append(respStructFiltered.Locations, loc)
+					}
+				}
+				resJson, _ := json.MarshalIndent(respStructFiltered, "", "  ")
 				fmt.Println(string(resJson))
 				return
 			}

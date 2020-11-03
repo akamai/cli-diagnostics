@@ -36,7 +36,7 @@ var findInFlag []string
 
 // grepCmd represents the grep command
 var grepCmd = &cobra.Command{
-	Use:   "grep <Edge server IP> <--end-date Date> <--end-time Time> <--duration Duration> [--find-in Header:Value ...] [--max-lines Maximum log lines to display] <-r | -f | -rf> ",
+	Use:   grepUse,
 	Args:  cobra.ExactArgs(1),
 	Short: grepShortDescription,
 	Long:  grepLongDescription,

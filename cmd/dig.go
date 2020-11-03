@@ -28,7 +28,7 @@ var typeDigFlag string
 
 // digCmd represents the dig command
 var digCmd = &cobra.Command{
-	Use:   "dig <Domain name/Hostname> <Ghost location/edge server IP address> [--type Query type]",
+	Use:   digUse,
 	Short: digShortDescription,
 	Args:  cobra.ExactArgs(2),
 	Long:  digLongDescription,

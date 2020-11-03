@@ -27,7 +27,7 @@ var userAgentFlag string
 
 // curlCmd represents the curl command
 var curlCmd = &cobra.Command{
-	Use:   "curl <URL> <Ghost Location/edge server IP address> [--user-agent Additional user agent]",
+	Use:   curlUse,
 	Args:  cobra.ExactArgs(2),
 	Short: curlShortDescription,
 	Long:  curlLongDescription,

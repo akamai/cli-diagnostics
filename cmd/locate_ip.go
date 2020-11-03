@@ -25,7 +25,7 @@ import (
 
 // locateIpCmd represents the locateIp command
 var locateIpCmd = &cobra.Command{
-	Use:     "locate-ip <IP address>",
+	Use:     locateIpUse,
 	Aliases: []string{"locateIp", "locateip"},
 	Args:    cobra.ExactArgs(1),
 	Short:   locateIpShortDescription,

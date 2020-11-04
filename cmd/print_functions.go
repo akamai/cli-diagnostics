@@ -214,7 +214,7 @@ func printCurlResults(obj *CurlResults) {
 	}
 	fmt.Println()
 	colorPrintln("yellow", responseBody)
-	fmt.Println(obj.ResponseBody)
+	fmt.Println(html.UnescapeString(obj.ResponseBody))
 
 }
 

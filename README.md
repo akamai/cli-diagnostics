@@ -2,7 +2,7 @@
 
 * [Get Started with the Diagnostic Tools CLI](#get-started-with-the-diagnostic-tools-cli)
 
-* [Install Diagnostic Tools CLI](install-diagnostic-tools-cli)
+* [Install Diagnostic Tools CLI](#install-diagnostic-tools-cli)
 
 * [Stay up to date](#stay-up-to-date)
 
@@ -58,37 +58,41 @@
 
 # Get Started with the Diagnostic Tools CLI
 
-The Diagnostic Tools CLI lets you identify, analyze, and troubleshoot common content delivery network issues that your users may encounter.
+The Diagnostic Tools CLI lets you identify, analyze, and troubleshoot common content delivery network issues that your users may encounter. 
 
 ## Install Diagnostic Tools CLI
 
 To install this CLI, you need the [Akamai CLI](https://github.com/akamai/cli) package manager. Once you install the Akamai CLI, run this command:
 
-`akamai install diagnostics`
+`akamai install diagnostics` 
 
 ## Stay up to date
 
 To make sure you always use the latest version of the CLI, run this command:  
 
-`akamai update diagnostics`
+`akamai update diagnostics`  
+
 
 ## Concepts
 
-To learn more about the concepts behind this CLI and the Diagnostic Tools API, see the Diagnostic Tools API [Overview](https://developer.akamai.com/api/core_features/diagnostic_tools/v2.html#overview). 
+To learn more about the concepts behind this CLI and the Diagnostic Tools API, see the Diagnostic Tools API [Overview](https://developer.akamai.com/api/core_features/diagnostic_tools/v2.html#overview).
+
 
 ## Available commands 
 
 ### `help`
 This command returns a list of available commands and flags with their descriptions.
 
+
 ### `list`
-This command lists available commands with their short descriptions.
+This command lists available commands with their short descriptions. 
+
 
 ### `user-diagnostics create-group`
 This command creates a group in Diagnostic Tools for a hostname you want to gather diagnostic data for. It also generates a diagnostic link 
 that you can send to end users of a group’s hostname or URL. When end users click the link, the tool gathers the necessary diagnostic data to submit.
 
-**Command**: `user-diagnostics create-group group_name hostname`, where:
+**Command**: `user-diagnostics create-group group_name hostname` where:
 
 - `group_name` is the name you assign to the group.
 - `hostname` is the hostname you need to gather diagnostic data for.
@@ -96,7 +100,8 @@ that you can send to end users of a group’s hostname or URL. When end users cl
 **Example**: `akamai diagnostics user-diagnostics create-group test_group www.akamai.com`
 
 **Expected output**: The response includes the link you can send to end users experiencing issues with the hostname. When an end user 
-clicks the link, Diagnostic Tools gathers necessary data and asks the user to submit them. Each link is active for 7 days and has a limit of 50 submissions.
+clicks the link, Diagnostic Tools gathers necessary data and asks the user to submit them. Each link is active for 7 days and has a limit of 50 submissions. 
+
 
 ### `user-diagnostics list`
 This command lists the diagnostic groups that gather user data for hostnames experiencing issues. It also lists the generated links and the number of submitted data.
@@ -108,16 +113,16 @@ This command lists the diagnostic groups that gather user data for hostnames exp
 ### `user-diagnostics get`
 This command returns diagnostic data submitted by end users.
 
-**Command**: `get link_id`, where `link_id` is the identifier for the generated link. To get the identifier, run the `user-diagnostics list` command.
+**Command**: `get link_id` where `link_id` is the identifier for the generated link. To get the identifier, run the `user-diagnostics list` command.
 
-**Example: `akamai diagnostics get 2661`
+**Example**: `akamai diagnostics get 2661`
 
-**Expected output**: The response includes a table with the collected data, such as timestamp (UTC), client IP preferred, client DNS IPv4, client DNS IPv6, user agent, cookie, protocol, connected cipher, client IPv4, and client IPv6. For more details, you can check the [API response](https://developer.akamai.com/api/core_features/diagnostic_tools/v2.html#d3c2cd5e) description.
+**Expected output**: The response includes a table with the collected data, such as timestamp (UTC), client IP preferred, client DNS IPv4, client DNS IPv6, user agent, cookie, protocol, connected cipher, client IPv4, and client IPv6. For more details, you can check the [API response](https://developer.akamai.com/api/core_features/diagnostic_tools/v2.html#d3c2cd5e) description. 
 
 ### `verify-ip`
 This command checks whether the specified IP address is part of the Akamai edge network.
 
-**Command**: `verify-ip IP_address`, where `IP_address` is the IP address you want to verify.
+**Command**: `verify-ip IP_address` where `IP_address` is the IP address you want to verify.
 
 **Example**: `akamai diagnostics verify-ip 123.123.123.123`
 
@@ -126,7 +131,7 @@ This command checks whether the specified IP address is part of the Akamai edge 
 ### `locate-ip`
 This command provides the geographic and network location of an IP address within the Akamai network. This operation’s requests are limited to 500 per day.
 
-**Command**: ` locate-ip IP_address`, where `IP_address` is the IP address you want to get the location data for.
+**Command**: ` locate-ip IP_address` where `IP_address` is the IP address you want to get the location data for.
 
 **Example**: `akamai diagnostics locate-ip 123.123.123.123`
 
@@ -135,7 +140,7 @@ This command provides the geographic and network location of an IP address withi
 ### `dig`
 This command returns DNS details for the location of an Akamai edge server and the hostname or the domain name. You can use it to diagnose issues with the DNS resolution.
 
-**Command**: `dig hostname source_server_location/edge_server_IP --type query_type`, where:
+**Command**: `dig hostname source_server_location/edge_server_IP --type query_type` where:
 
 - `hostname` is either a hostname or a domain name you want to get the DNS details for. 
 - `source_server_location/edge_server_IP` is either one of the locations listed by the `ghost-locations` command or an edge server IP.
@@ -164,16 +169,16 @@ The `--resolve-hostname` flag is optional. Without it, the outcome includes only
 ### `translate-url`
 This command gets high-level information about an Akamai-optimized URL (ARL), such as its time to live, origin server, and associated CP code. 
 
-**Command**: ` translate-url URL`, where `URL` is the URL with a protocol you want to get information about.
+**Command**: ` translate-url URL` where `URL` is the URL with a protocol you want to get information about.
 
 **Example**: `akamai diagnostics translate-url http://www.akamai.com`
 
-**Expected outcome**: The response includes basic metadata about the URL. For more details, you can check the [API response](https://developer.akamai.com/api/core_features/diagnostic_tools/v2.html#5f95c48d) description. 
+**Expected outcome**: The response includes basic metadata about the URL. For more details, you can check the [API response](https://developer.akamai.com/api/core_features/diagnostic_tools/v2.html#5f95c48d) description.  
 
 ### `translate-error-string`
 This command provides a summary and logs for the error that occurred in the original request. It uses the error string from the reference number to provide this data.
 
-**Command**: `translate-error-string error_string`, where `error_string` is the error reference number you want to translate.
+**Command**: `translate-error-string error_string` where `error_string` is the error reference number you want to translate.
 
 **Example**: `akamai translate-error-string 9.6f64d440.1318965461.2f2b078`
 
@@ -182,7 +187,7 @@ This command provides a summary and logs for the error that occurred in the orig
 ### `curl`
 This command runs `curl` which provides raw HTML for a URL within the Akamai network. You can use it to gather information about the HTTP response. 
 
-**Command**: `curl URL source_server_location/edge_server_IP --user-agent additional-user-agent`, where:
+**Command**: `curl URL source_server_location/edge_server_IP --user-agent additional-user-agent` where:
 
 - `URL` is the URL within the Akamai network you want to get data for.
 - `source_server_location/edge_server_IP` is either one of the locations listed by the `ghost-locations` command or an edge server IP. 
@@ -198,7 +203,7 @@ low-level details on how each request was handled. You can use this information 
 ensure the correct Akamai features were applied to the traffic. Data is available for 48 hours after the 
 traffic occurs.
 
-**Command**: `grep edge_server_IP --end-date date --end-time time --duration duration --find-in Header:Value --max-lines maximum_log_lines_to_display -r | -f | -rf`, where:
+**Command**: `grep edge_server_IP --end-date date --end-time time --duration duration --find-in Header:Value --max-lines maximum_log_lines_to_display -r | -f | -rf` where:
 
 - `edge_server_IP` is the edge server IP you want to get logs for.
 - `date` is the date in the past when the log search window ends, in <YYYY-MM-DD> format.
@@ -213,12 +218,12 @@ Only the `--end-date`, `--end-time`, `--duration` flags are mandatory. The `--fi
 
 **Example**: `akamai diagnostics grep 123.123.123.123 --end-date 2020-07-20 --end-time 11:45:03 --duration 90 --max-lines 200 --find-in ”HTTP Status Code:400” --find-in ”CP code:12345” -rf`
 
-**Expected outcome**: The response includes a `grep` response. For more details, you can check the [API response](https://developer.akamai.com/api/core_features/diagnostic_tools/v2.html#802809bc) description. 
+**Expected outcome**: The response includes a `grep` response. For more details, you can check the [API response](https://developer.akamai.com/api/core_features/diagnostic_tools/v2.html#802809bc) description.
 
 ### `debug-url`
 This command provides DNS information, HTTP response, response headers, and logs for a URL on Akamai edge servers. 
 
-**Command**: `debug-url URL --edge-ip edge_server_IP --header request_header`, where:
+**Command**: `debug-url URL --edge-ip edge_server_IP --header request_header` where:
 
 - `URL` is the URL you want to gather data for.
 - `edge_server_IP` is the edge server IP address to test the URL against, otherwise a random server by default.
@@ -233,11 +238,11 @@ The `--edge-ip`, `--header` flags are optional. The `--header` flag can be used 
 ### `estats`
 This command returns error statistics on a CP code’s traffic from Akamai edge servers to both clients and the origin. 
 
-**Command**: `estats URL/CP_code`, where `URL/CP_code` is either a URL or a CP code you want to get statistics for.
+**Command**: `estats URL/CP_code` where `URL/CP_code` is either a URL or a CP code you want to get statistics for.
 
 **Example**: `akamai diagnostics estats https://www.akamai.com`
 
-**Expected outcome**: The response includes error statistics. For more details, you can check the [API response](https://developer.akamai.com/api/core_features/diagnostic_tools/v2.html#010c57a6) description.
+**Expected outcome**: The response includes error statistics. For more details, you can check the [API response](https://developer.akamai.com/api/core_features/diagnostic_tools/v2.html#010c57a6) description.  
 
 ### `ghost-locations`
 Lists active Akamai edge servers in a particular location from which you can run diagnostic tools.
@@ -253,13 +258,13 @@ Lists active Akamai edge servers in a particular location from which you can run
 You can use the following flags with all the listed commands.
 
 ### `--edgerc value`
-This flag returns the location of the credentials file.
+This flag returns the location of the credentials file.  
 
 ### `--section value`
-This flag returns the section name of the credentials file.
+This flag returns the section name of the credentials file. 
 
 ### `--help`
-This flag returns help for a command.
+This flag returns help for a command. 
 
 ### `--version`
 This flag returns the version.

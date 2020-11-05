@@ -25,7 +25,7 @@ import (
 
 //verifyIpCmd represents the verifyIp command
 var verifyIpCmd = &cobra.Command{
-	Use:     "verify-ip <IP address>",
+	Use:     verifyIpUse,
 	Aliases: []string{"verifyIp", "verifyip"},
 	Args:    cobra.ExactArgs(1),
 	Short:   verifyIpShortDescription,

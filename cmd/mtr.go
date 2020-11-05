@@ -28,7 +28,7 @@ var resolveHostMtrFlag bool
 
 // mtrCmd represents the mtr command
 var mtrCmd = &cobra.Command{
-	Use:   "mtr <Domain Name/Destination IP> <Ghost location/edge server IP address> [--resolve-hostname]",
+	Use:   mtrUse,
 	Args:  cobra.ExactArgs(2),
 	Short: mtrShortDescription,
 	Long:  mtrLongDescription,

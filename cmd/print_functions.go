@@ -24,6 +24,7 @@ import (
 	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/jedib0t/go-pretty/v6/text"
 
+	"html"
 	"net/url"
 )
 
@@ -196,7 +197,8 @@ func printTranslatedError(obj *TranslatedError) {
 		fmt.Println(log.Description)
 		fmt.Println()
 		for k, v := range log.Fields {
-			printLabelAndValue(k, v)
+			str := fmt.Sprintf("%v", v)
+			printLabelAndValue(k, html.UnescapeString(str))
 		}
 		fmt.Println("----")
 	}
@@ -212,7 +214,7 @@ func printCurlResults(obj *CurlResults) {
 	}
 	fmt.Println()
 	colorPrintln("yellow", responseBody)
-	fmt.Println(obj.ResponseBody)
+	fmt.Println(html.UnescapeString(obj.ResponseBody))
 
 }
 
@@ -239,7 +241,8 @@ func printDebugUrlResults(obj *DebugUrl) {
 	for _, log := range obj.Logs {
 		fmt.Println(log.Description)
 		for k, v := range log.Fields {
-			printLabelAndValue(k, v)
+			str := fmt.Sprintf("%v", v)
+			printLabelAndValue(k, html.UnescapeString(str))
 		}
 		fmt.Println()
 	}
@@ -359,7 +362,8 @@ func printResponseError(byt *[]byte) {
 	}
 	printWarning(errorStruct.Detail)
 	for _, err := range errorStruct.Errors {
-		fmt.Println(err["error"])
+		printWarning(err["error"])
+		//fmt.Println(err["error"])
 	}
 	os.Exit(1)
 }

@@ -34,7 +34,7 @@ var jsonString bool
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use: "akamai-diagnostics",
+	Use: rootUse,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		if forceColorFlag {
 			color.NoColor = false

@@ -24,7 +24,7 @@ import (
 
 // createGroupCmd represents the createGroup command
 var createGroupCmd = &cobra.Command{
-	Use:     "create-group <Group Name> <Hostname>",
+	Use:     userDiagnosticsCreateGroupUse,
 	Aliases: []string{"creategroup", "createGroup"},
 	Args:    cobra.ExactArgs(2),
 	Short:   userDiagnosticsCreateGroupShortDescription,

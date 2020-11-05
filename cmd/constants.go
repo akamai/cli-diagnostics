@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 
-// 	http://www.apache.org/licenses/LICENSE-2.0
+//  http://www.apache.org/licenses/LICENSE-2.0
 
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,33 +16,41 @@ package cmd
 
 //root
 const (
-	rootShortDescription = "The Diagnostic Tools allows you to diagnose many common problems Akamai customers experience when delivering content to their end users."
-	rootLongDescription  = `The Diagnostic Tools allows you to diagnose many common problems Akamai customers experience when delivering content to their end users.
+	rootShortDescription = "The Diagnostic Tools CLI allows you to diagnose server, ESI, DNS, and network issues Akamai customers experience when delivering content to their end users."
+	rootLongDescription  = `The Diagnostic Tools CLI allows you to diagnose server, ESI, DNS, and network issues Akamai customers experience when delivering content to their end users.
 
-	Run the process in background, 
-	linux : redirect the output to a textfile and use ampersand &
-		   command > textfile &
-	windows : use the START command with /B and redirect the output to a textfile
-		   START /B command > textfile`
-	edgercPathFlagDescription    = "Location of edgegrid credentials file"
-	edgercSectionFlagDescription = "Name of the section in credentials file"
-	forceColorFlagDescription    = "Force color to non tty output"
-	jsonFlagDescription          = "Get json output"
+    Run the process in background, 
+    linux : redirect the output to a textfile and use ampersand &
+           command > textfile &
+    windows : use the START command with /B and redirect the output to a textfile
+           START /B command > textfile`
+
+	edgercPathFlagDescription    = "Location of the edgegrid credentials file."
+	edgercSectionFlagDescription = "Section name in the credentials file."
+	forceColorFlagDescription    = "Force color to non-tty output."
+	jsonFlagDescription          = "Get JSON output."
+
+	rootUse = "diagnostics"
 )
 
 //ghost_location
 const (
 	ghostLocationShortDescription = "Lists active Akamai edge server locations from which you can run diagnostic tools."
 	ghostLocationLongDescription  = `Lists active Akamai edge server locations from which you can run diagnostic tools.`
-	searchFlagDescription         = "flag to accept a search string to filter the list."
+
+	searchFlagDescription = "The location to filter the list."
+
+	ghostLocationUse = "ghost-locations --search location"
 
 	ghostLocation = "Ghost Locations"
 )
 
 //verify_ip
 const (
-	verifyIpShortDescription = "Confirms if a certain IP address is that of an Akamai edge server."
-	verifyIpLongDescription  = `Confirms if a certain IP address is that of an Akamai edge server.`
+	verifyIpShortDescription = "Verifies whether the specified IP address is part of the Akamai edge network."
+	verifyIpLongDescription  = `Verifies whether the specified IP address is part of the Akamai edge network.`
+
+	verifyIpUse = "verify-ip IP_address"
 
 	ipAddress      = "IP address "
 	isCdnIpSuccess = "is an Akamai IP"
@@ -51,63 +59,69 @@ const (
 
 //locate_ip
 const (
-	locateIpShortDescription = "Provides the geographic and network location of any IP address."
-	locateIpLongDescription  = `Provides the geographic and network location of any IP address.`
+	locateIpShortDescription = "Provides the geographic and network location of an IP address within the Akamai network."
+	locateIpLongDescription  = `Provides the geographic and network location of an IP address within the Akamai network.`
+
+	locateIpUse = "locate-ip IP_address"
 
 	geographicLocation = "Geographic Location"
 	clientIp           = "Client IP"
-	countryCode        = "Country Code"
-	regionCode         = "Region Code"
+	countryCode        = "Country code"
+	regionCode         = "Region code"
 	city               = "City"
 	dma                = "DMA"
 	msa                = "MSA"
 	pmsa               = "PMSA"
-	areaCode           = "Area Code"
+	areaCode           = "Area code"
 	latitude           = "Latitude"
 	longitude          = "Longitude"
 	country            = "County"
 	continent          = "Continent"
 	fisp               = "FIPS"
-	timeZone           = "Time Zone"
-	zipCode            = "Zip Code"
+	timeZone           = "Time zone"
+	zipCode            = "Zip code"
 	proxy              = "Proxy"
 
 	networkLocation = "Network Location"
 	network         = "Network"
-	networkType     = "Network Type"
-	asNum           = "As Num"
+	networkType     = "Network type"
+	asNum           = "ASN"
 	throughput      = "Throughput"
 )
 
 //translate_url
 const (
-	translateUrlShortDescription = "Provides basic information about a specified URL."
-	translateUrlLongDescription  = `Provides basic information about a specified URL, such as typecode,
-	origin server, CP code, serial number, and TTL for a URL/ARL.`
+	translateUrlShortDescription = "Provides high-level information about an Akamai-optimized URL (ARL), such as its time to live, origin server, and associated CP code."
+	translateUrlLongDescription  = `Provides high-level information about an Akamai-optimized URL (ARL), such as its time to live, origin server, and associated CP code.`
 
-	translateUrl = "Translate url"
-	typeCode     = "Type Code"
-	originServer = "Origin Server"
-	cpCode       = "CP Code"
-	serialNumber = "Serial Number"
+	translateUrlUse = "translate-url URL"
+
+	translateUrl = "Translate URL"
+	typeCode     = "Type code"
+	originServer = "Origin server"
+	cpCode       = "CP code"
+	serialNumber = "Serial number"
 	ttl          = "TTL"
 )
 
 //dig
 const (
-	digShortDescription = "Run DIG command from edge server."
-	digLongDescription  = `Uses the DIG command to provide Domain Name Server (DNS) details for the location of the edge server 
-	and hostname or domain name, enabling you to diagnose issues with domain name resolution.`
-	typeDigFlagDescription = "The type of DNS record, either A, AAAA, CNAME, MX, NS, PTR, or SOA."
+	digShortDescription = "Runs DIG on a hostname or a domain name to return DNS details for the location of an Akamai edge server and the hostname or the domain name. You can use it to diagnose issues with the DNS resolution."
+	digLongDescription  = `Runs the DIG command on a hostname or a domain name to return DNS details for the location of an Akamai edge server and the hostname or the domain name. You can use it to diagnose issues with the DNS resolution.`
+
+	typeDigFlagDescription = "The type of the DNS record; possible values are: A, AAAA, CNAME, MX, NS, PTR, or SOA."
+
+	digUse = "dig hostname source_server_location/edge_server_IP --type query_type"
 )
 
 //mtr
 const (
-	mtrShortDescription = "Run MTR from edge server."
-	mtrLongDescription  = `Uses the MTR command to provide information about the route, number of hops, and time
-	that Internet traffic packets take between the edge server and a remote host or destination. 
-	The results can show you where network delays are being introduced in the path.`
-	resolveHostMtrFlagDescription = "Whether to use DNS to resolve hostnames. When disabled, output features only IP addresses."
+	mtrShortDescription = "Runs MTR to check connectivity between an Akamai edge server and a remote host or destination. You can use it to diagnose network delays issues."
+	mtrLongDescription  = `Runs the MTR command to provide information about the route, number of hops, and time that Internet traffic packets take between the Akamai edge server and a remote host or destination. You can use it to diagnose network delays issues.`
+
+	resolveHostMtrFlagDescription = "Whether to use DNS to resolve hostnames. When disabled, the output features only IP addresses."
+
+	mtrUse = "mtr domain_name/destination_IP source_server_location/edge_server_IP --resolve-hostname"
 
 	networkConnectivity = "Network Connectivity Test from"
 	to                  = "to"
@@ -115,10 +129,12 @@ const (
 
 //curl
 const (
-	curlShortDescription = "Uses the CURL command to provide the raw html for a specified URL."
-	curlLongDescription  = `Uses the CURL command to provide the raw html for a specified URL.
-	Making an HTTP request from an edge server lets you gather information about the HTTP response.`
-	userAgentFlagDescription = "Pass an additional User Agent"
+	curlShortDescription = "Runs CURL to provide a raw HTML for a URL within the Akamai network. You can use it to gather information about the HTTP response."
+	curlLongDescription  = `Runs the CURL command to provide a raw HTML for a URL within the Akamai network. You can use it to gather information about the HTTP response.`
+
+	userAgentFlagDescription = "The user agent; possible values are: android, firefox, iphone, mobile, chrome, msie, msie9, msie10, safari, safari/5, safari/6, webkit, webkit/5, webkit/6."
+
+	curlUse = "curl URL source_server_location/edge_server_IP --user-agent additional-user-agent"
 
 	responseHeader = "Response Headers"
 	responseBody   = "Response Body"
@@ -126,90 +142,97 @@ const (
 
 //translate_error
 const (
-	translateErrorShortDescription = "Fetch a summary and log information	for the error that occurred in the original request."
-	translateErrorLongDescription  = `Uses the error string from the reference number to fetch a summary and log information
-	for the error that occurred in the original request.`
+	translateErrorShortDescription = "Provides information about an error string from the reference number produced by Akamai edge servers when a request to retrieve content fails."
+	translateErrorLongDescription  = `Provides a summary and logs for the error that occurred in the original request using the error string from the reference number.`
 
-	summary                = "SUMMARY"
+	translateErrorUse = "translate-error-string error_string"
+
+	summary                = "Summary"
 	urlTranslateError      = "URL"
-	httpResponseCode       = "HTTP Response Code"
-	dateAndTime            = "Date and Time"
-	epocTime               = "Epoch Time"
+	httpResponseCode       = "HTTP response code"
+	dateAndTime            = "Date and time"
+	epocTime               = "Epoch time"
 	clientIpTranslateError = "Client IP"
 	connectingIp           = "Connecting IP"
-	originHostName         = "Origin Hostname"
+	originHostName         = "Origin hostname"
 	originIp               = "Origin IP"
-	userAgent              = "User Agent"
-	clientRequest          = "Client Request"
-	reasonForFailure       = "Reason for Failure"
-	wafDetails             = "WAF Details"
+	userAgent              = "User agent"
+	clientRequest          = "Client request"
+	reasonForFailure       = "Reason for failure"
+	wafDetails             = "WAF details"
 
-	errorLogs = "ERROR LOGS"
+	errorLogs = "Error Logs"
 )
 
 //grep
 const (
-	grepShortDescription          = "Uses the GREP command to retrieve and parse logs from an edge server IP address, within the last 48 hours."
-	grepLongDescription           = `Uses the GREP command to retrieve and parse logs from an edge server IP address, within the last 48 hours.`
-	endDateFlagDescription        = "End Date of log search, specified in <yyyy:mm:dd>"
-	endTimeFlagDescription        = "End Time of log search, specified in <hh:mm:ss> (UTC)"
-	durationFlagDescription       = "Duration before End Time in minutes"
-	maxLinesFlagDescription       = "Maximum log lines to display"
-	clientRequestFlagDescription  = "Search logs of incoming client requests to the edge server"
-	forwardRequestFlagDescription = "Search logs of forwarded requests from the edge server"
-	findInFlagDescription         = "Where to search, specified as <field>:<value>"
+	grepShortDescription = "Runs GREP to retrieve and parse logs for an IP address within the Akamai network using flags to filter the data. Data is available for 48 hours after the traffic occurs."
+	grepLongDescription  = `Runs the GREP command to retrieve and parse logs for an IP address within the Akamai network using flags to filter the data. Logs provide low-level details on how each request was handled, which you can use to troubleshoot caching and performance issues and to ensure the correct set of Akamai features was applied to the traffic. Data is available for 48 hours after the traffic occurs.`
+
+	grepUse = "grep edge_server_IP --end-date date --end-time time --duration duration --find-in Header:Value --max-lines maximum_log_lines_to_display -r | -f | -rf"
+
+	endDateFlagDescription        = "The end date of log search, in the <yyyy:mm:dd> format."
+	endTimeFlagDescription        = "The end time of log search, in the <hh:mm:ss> (UTC) format."
+	durationFlagDescription       = "The number of minutes before the `end-date` and `end-time` for which to retrieve logs."
+	maxLinesFlagDescription       = "The maximum log lines to display."
+	clientRequestFlagDescription  = "Search logs of incoming client requests to the Akamai edge server."
+	forwardRequestFlagDescription = "Search logs of forwarded requests from the Akamai edge server."
+	findInFlagDescription         = "Where to search, specified as <field>:<value>. Possible `field` values are: `host-header`, `user-agent`, `http-status-code`, `arl`, `cp-code`, and `client-ip`."
 )
 
 //estats
 const (
-	estatsShortDescription = "Provides an understanding of the errors happening in the delivery of websites."
-	estatsLongDescription  = `Provides an understanding of the errors happening in the delivery of websites
-	based on real-time data of traffic of a particular CP code in terms of traffic
-	from clients to edge servers and from edge servers to origin.`
+	estatsShortDescription = "Provides error statistics on a CP code’s traffic from clients to Akamai edge servers and from Akamai edge servers to origin."
+	estatsLongDescription  = `Provides statistics on errors happening in the delivery of websites based on real-time data of CP code's traffic from clients to Akamai edge servers and from Akamai edge servers to origin.`
 
-	summaryEstats = "SUMMARY"
+	estatsUse = "estats URL/CP_code"
+
+	summaryEstats = "Summary"
 
 	edgeStatistics                 = "Edge Statistics"
 	percentageFailurEdgeStatistics = "(Percent failure: %.1f%c)"
-	edgeStatisticsDescription      = "Edge Status Code Distribution"
-	statusCodeEdgeStatistics       = "Status Code"
-	percentageHitEdgeStatistics    = "%Hits"
+	edgeStatisticsDescription      = "Edge status code distribution"
+	statusCodeEdgeStatistics       = "Status code"
+	percentageHitEdgeStatistics    = "% Hits"
 
 	originalStatistics                 = "Origin Statistics"
 	percentageFailurOriginalStatistics = "(Percent failure: %.1f%c)"
-	originalStatisticsDescription      = "Origin Status Code Distribution"
-	statusCodeOriginalStatistics       = "Status Code"
-	percentageHitsOriginalStatistics   = "%Hits"
+	originalStatisticsDescription      = "Origin status code distribution"
+	statusCodeOriginalStatistics       = "Status code"
+	percentageHitsOriginalStatistics   = "% Hits"
 
-	edgeErrors             = "EDGE ERRORS"
-	edgeErrorsDescription  = "View last 10 edge errors."
+	edgeErrors             = "Edge Errors"
+	edgeErrorsDescription  = "View last 10 edge errors"
 	edgeIpEdgeErrors       = "Edge IP"
 	regionEdgeErrors       = "Region"
-	httpStatusEdgeErrors   = "HTTP Status"
+	httpStatusEdgeErrors   = "HTTP status"
 	hitsEdgeErrors         = "Hits"
-	objectStatusEdgeErrors = "Object Status"
-	errorCodeEdgeErrors    = "ErrorCode"
+	objectStatusEdgeErrors = "Object status"
+	errorCodeEdgeErrors    = "Error code"
 
-	originErrors             = "ORIGIN ERRORS"
+	originErrors             = "Origin Errors"
 	originErrorsDescription  = "View last 10 origin errors"
 	edgeIpOriginErrors       = "Edge IP"
 	regionOriginErrors       = "Region"
-	httpStatusOriginErrors   = "HTTP Status"
+	httpStatusOriginErrors   = "HTTP status"
 	hitsOriginErrors         = "Hits"
-	objectStatusOriginErrors = "Object Status"
-	errorCodeOriginErrors    = "ErrorCode"
+	objectStatusOriginErrors = "Object status"
+	errorCodeOriginErrors    = "Error code"
 )
 
 //debug_url
 const (
-	debugUrlShortDescription = "Provides DNS Information, HTTP Response, Response Header, and Logs for a URL/ARL."
-	debugUrlLongDescription  = `Provides DNS Information, HTTP Response, Response Header, and Logs for a URL/ARL.`
-	headerFlagDescription    = "Any additional headers to add to the request,specified as <header>:<value>"
-	edgeIpFlagDescription    = "The edge server IP address to test the URL against, otherwise a random server by default."
+	debugUrlShortDescription = "Provides DNS information, HTTP response, response headers, and logs for a URL on Akamai edge servers."
+	debugUrlLongDescription  = `Provides DNS information, HTTP response, response headers, and logs for a URL on Akamai edge servers.`
 
-	dnsInformation         = "DNS Information"
-	httpResponse           = "HTTP Response"
-	responseHeaderDebugUrl = "Response Header"
+	headerFlagDescription = "Any additional headers to add to the request, in the <header>:<value> format."
+	edgeIpFlagDescription = "The Akamai edge server IP address to test the URL against, otherwise a random server by default."
+
+	debugUrlUse = "debug-url URL --edge-ip edge_server_IP --header request_header"
+
+	dnsInformation         = "DNS information"
+	httpResponse           = "HTTP response"
+	responseHeaderDebugUrl = "Response header"
 	logs                   = "Logs"
 )
 
@@ -217,62 +240,70 @@ const (
 const (
 	userDiagnosticsShortDescription = "Use this tool to create a sharable link and send it to the end users to collect diagnostic data. You can view, filter, and export the results."
 	userDiagnosticsLongDescription  = `Use this tool to create a sharable link and send it to the end users to collect diagnostic data. You can view, filter, and export the results.`
+
+	userDiagnosticsUse = "user-diagnostics"
 )
 
 //user_diagnostics_list
 const (
-	userDiagnosticsListShortDescription = "List all the End User Diagnostic Data."
-	userDiagnosticsListLongDescription  = `List all the End User Diagnostic Data.`
+	userDiagnosticsListShortDescription = "Lists all groups created to gather diagnostic data of end users of hostnames experiencing issues together with the generated links and number of collected data."
+	userDiagnosticsListLongDescription  = `Lists all groups created to gather diagnostic data of end users of hostnames experiencing issues together with the generated links and number of collected data.`
 
-	userDiagnosticsListNote   = "NOTE: Each link is active for 7 days and has a limit of 50 submissions."
+	userDiagnosticsListUse = "list"
+
+	userDiagnosticsListNote   = "Note: Each link is active for 7 days and has a limit of 50 submissions."
 	linkId                    = "Link ID"
 	statusUserDiagnosticsLink = "Status"
-	generatedOn               = "Generated On(UTC)"
-	groupName                 = "Group Name"
+	generatedOn               = "Generated on (UTC)"
+	groupName                 = "Group name"
 	hostNameOrUrl             = "Hostname/URL"
 	caseId                    = "Case ID"
-	userSharableLink          = "User Sharable Link"
+	userSharableLink          = "User sharable link"
 	records                   = "Records"
 )
 
 //user_diagnostics_create_group
 const (
-	userDiagnosticsCreateGroupShortDescription = "Create group to get user sharable link"
-	userDiagnosticsCreateGroupLongDescription  = `Create group to get user sharable link`
+	userDiagnosticsCreateGroupShortDescription = "Creates a group for a hostname you want to gather diagnostic data for. It also generates a diagnostic link that you can send to end users of the group’s hostname or URL. When end users click the link, the tool gathers necessary diagnostic data to submit."
+	userDiagnosticsCreateGroupLongDescription  = `Creates a group for a hostname you want to gather diagnostic data for. It also generates a diagnostic link that you can send to end users of the group’s hostname or URL. When end users click the link, the tool gathers necessary diagnostic data to submit.`
+
+	userDiagnosticsCreateGroupUse = "create-group group_name hostname"
 
 	linkText1 = "Here is your link!"
 	linkText2 = "Copy and send the link below to the end users who are experiencing the content delivery problem.\nEach link is active for 7 days and has a limit of 50 submissions."
-	linkText3 = "link: "
+	linkText3 = "Link: "
 )
 
 //user_diagnostics_get
 const (
-	userDiagnosticsGetShortDescription = "get end user diagnostics result by Id"
-	userDiagnosticsGetLongDescription  = `get end user diagnostics result by Id`
+	userDiagnosticsGetShortDescription = "Lists end users' diagnostic data submitted using a diagnostic link."
+	userDiagnosticsGetLongDescription  = `Lists end users' diagnostic data submitted using a diagnostic link.`
+
+	userDiagnosticsGetUse = "get link_id"
 
 	viewUserDiagnosticsData           = "View User Diagnostic Data"
 	generatedOnUserDiagnosticGet      = "Generated on"
-	groupNameUserDiagnosticGet        = "Group Name"
+	groupNameUserDiagnosticGet        = "Group name"
 	hostNameOrUrlUserDiagnosticGet    = "Hostname/URL"
-	userSharableLinkUserDiagnosticGet = "User Sharable Link"
-	linkStatus                        = "Link Status"
+	userSharableLinkUserDiagnosticGet = "User sharable link"
+	linkStatus                        = "Link status"
 
 	uid                        = "UID"
-	timestamp                  = "TimeStamp(UTC)"
-	clientIpPreferred          = "Client IP Preferred"
+	timestamp                  = "Timestamp (UTC)"
+	clientIpPreferred          = "Client IP preferred"
 	clientDnsIpv4              = "Client DNS IPv4"
 	clientDnsIpv6              = "Client DNS IPv6"
-	userAgentUserDiagnosticGet = "User Agent"
+	userAgentUserDiagnosticGet = "User agent"
 	cookie                     = "Cookie"
 	protocol                   = "Protocol"
-	connectedCipher            = "Connected Cipher"
+	connectedCipher            = "Connected cipher"
 	clientIpv4                 = "Client IPv4"
 	clientIpv6                 = "Client IPv6"
 
 	edgeIps = "Edge IPs"
 
-	curlDescription = " - Request content from edge server, run : "
-	digDescription  = " - Get domain details from an edge server, run : "
+	curlDescription = " - Request content from Akamai edge server, run: "
+	digDescription  = " - Get domain details from an Akamai edge server, run: "
 
-	edgeIpMessage = "Edge IP is not shown either because of a system error or the client DNS has a ECS (EDNS Client Subnet)"
+	edgeIpMessage = "Edge IP is not shown either because of a system error or the client DNS has an ECS (EDNS Client Subnet)."
 )

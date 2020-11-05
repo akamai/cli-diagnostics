@@ -25,7 +25,7 @@ import (
 
 // errorStatsCmd represents the errorStats command
 var errorStatsCmd = &cobra.Command{
-	Use:   "estats <URL/CP Code>",
+	Use:   estatsUse,
 	Args:  cobra.ExactArgs(1),
 	Short: estatsShortDescription,
 	Long:  estatsLongDescription,
@@ -55,6 +55,7 @@ var errorStatsCmd = &cobra.Command{
 				responseStructJson.ReportedTime = getReportedTime()
 				responseStructJson.Estats = responseStruct.Estats
 				resJson, _ := json.MarshalIndent(responseStructJson, "", "  ")
+				resJson = getDecodedResponse(resJson)
 				fmt.Println(string(resJson))
 				return
 			}

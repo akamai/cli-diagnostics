@@ -29,7 +29,7 @@ var edgeIPflag string
 
 // debugUrlCmd represents the debugUrl command
 var debugUrlCmd = &cobra.Command{
-	Use:     "debug-url <URL> [--edge-ip Edge IP address] [--header headername:value]",
+	Use:     debugUrlUse,
 	Aliases: []string{"debugUrl", "debugurl"},
 	Args:    cobra.ExactArgs(1),
 	Short:   debugUrlShortDescription,

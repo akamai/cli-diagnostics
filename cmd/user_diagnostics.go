@@ -20,7 +20,7 @@ import (
 
 // viewDiagnosticsCmd represents the viewDiagnostics command
 var userDiagnosticsCmd = &cobra.Command{
-	Use:     "user-diagnostics",
+	Use:     userDiagnosticsUse,
 	Aliases: []string{"userDiagnostics"},
 	Short:   userDiagnosticsShortDescription,
 	Long:    userDiagnosticsLongDescription,

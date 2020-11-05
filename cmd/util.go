@@ -55,6 +55,8 @@ func doHTTPRequest(method string, url string, payload *[]byte) (*http.Response, 
 
 	req = edgegrid.AddRequestHeader(config, req)
 
+	req.Header.Set("x-user-agent", "cli-diagnostics")
+
 	resp, er := client.Do(req)
 	if er != nil {
 		fmt.Println(er)

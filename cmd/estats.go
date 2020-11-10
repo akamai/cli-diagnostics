@@ -32,9 +32,9 @@ var errorStatsCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		var url string
 		if _, err := strconv.Atoi(args[0]); err == nil {
-			url = fmt.Sprintf("/diagnostic-tools/v2/cpcodes/%s/estats", args[0])
+			url = fmt.Sprintf("/diagnostic-tools/v2/cpcodes/%s/estats?"+clientTypeKey+"=%s", args[0], clientTypeValue)
 		} else if checkAbsoluteURL(args[0]) {
-			url = "/diagnostic-tools/v2/estats?url=" + args[0]
+			url = "/diagnostic-tools/v2/estats?url=" + args[0] + "&" + clientTypeKey + "=" + clientTypeValue
 		} else {
 			printWarning("URL or CP code is invalid, e.g., http://www.example.com or 123456")
 			os.Exit(1)

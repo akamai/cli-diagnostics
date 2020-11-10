@@ -32,7 +32,7 @@ var ghostLocationsCmd = &cobra.Command{
 	Long:    ghostLocationLongDescription,
 	Run: func(cmd *cobra.Command, args []string) {
 
-		resp, byt := doHTTPRequest("GET", "/diagnostic-tools/v2/ghost-locations/available", nil)
+		resp, byt := doHTTPRequest("GET", "/diagnostic-tools/v2/ghost-locations/available?"+clientTypeKey+"="+clientTypeValue, nil)
 
 		if resp.StatusCode == 200 {
 			var respStruct GhostLocationsList

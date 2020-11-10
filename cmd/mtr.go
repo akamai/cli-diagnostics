@@ -63,6 +63,7 @@ var mtrCmd = &cobra.Command{
 		} else {
 			parameters.Add("resolveDns", "false")
 		}
+		parameters.Add(clientTypeKey, clientTypeValue)
 		Url.RawQuery = parameters.Encode()
 		resp, byt := doHTTPRequest("GET", Url.String(), nil)
 

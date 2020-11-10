@@ -35,7 +35,7 @@ var getCmd = &cobra.Command{
 			printWarning("Diagnostics Link Id should be numeric.")
 			os.Exit(1)
 		}
-		resp, byt := doHTTPRequest("GET", fmt.Sprintf("/diagnostic-tools/v2/api/end-user-links/%d", linkId), nil)
+		resp, byt := doHTTPRequest("GET", fmt.Sprintf("/diagnostic-tools/v2/api/end-user-links/%d?"+clientTypeKey+"=%s", linkId, clientTypeValue), nil)
 
 		if resp.StatusCode == 200 {
 			var responseStruct UserDiagnosticData

@@ -125,6 +125,7 @@ var grepCmd = &cobra.Command{
 			logType = "f"
 		}
 		parameters.Add("logType", logType)
+		parameters.Add(clientTypeKey, clientTypeValue)
 
 		Url.RawQuery = parameters.Encode()
 

@@ -36,9 +36,9 @@ var curlCmd = &cobra.Command{
 		var urlstr string
 		switch id {
 		case 0:
-			urlstr = fmt.Sprintf("/diagnostic-tools/v2/ip-addresses/%s/curl-results", addr)
+			urlstr = fmt.Sprintf("/diagnostic-tools/v2/ip-addresses/%s/curl-results?"+clientTypeKey+"=%s", addr, clientTypeValue)
 		case 1:
-			urlstr = fmt.Sprintf("/diagnostic-tools/v2/ghost-locations/%s/curl-results", addr)
+			urlstr = fmt.Sprintf("/diagnostic-tools/v2/ghost-locations/%s/curl-results?"+clientTypeKey+"=%s", addr, clientTypeValue)
 		case 2:
 			fmt.Printf("%s", args[1])
 			printWarning(" is not a valid IP address or Ghost Location")

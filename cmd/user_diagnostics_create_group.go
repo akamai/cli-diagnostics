@@ -40,7 +40,7 @@ var createGroupCmd = &cobra.Command{
 			fmt.Println(err)
 			os.Exit(1)
 		}
-		resp, byt := doHTTPRequest("POST", "/diagnostic-tools/v2/end-user-links", &encPayload)
+		resp, byt := doHTTPRequest("POST", "/diagnostic-tools/v2/end-user-links?"+clientTypeKey+"="+clientTypeValue, &encPayload)
 
 		if resp.StatusCode == 201 {
 			var responseStruct map[string]string

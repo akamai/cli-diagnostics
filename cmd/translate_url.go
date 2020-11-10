@@ -38,6 +38,7 @@ var translateUrlCmd = &cobra.Command{
 		Url, _ := url.Parse("/diagnostic-tools/v2/translated-url")
 		parameters := url.Values{}
 		parameters.Add("url", args[0])
+		parameters.Add(clientTypeKey, clientTypeValue)
 		Url.RawQuery = parameters.Encode()
 		resp, byt := doHTTPRequest("GET", Url.String(), nil)
 

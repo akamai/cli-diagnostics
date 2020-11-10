@@ -36,7 +36,7 @@ var verifyIpCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		resp, byt := doHTTPRequest("GET", fmt.Sprintf("/diagnostic-tools/v2/ip-addresses/%s/is-cdn-ip", args[0]), nil)
+		resp, byt := doHTTPRequest("GET", fmt.Sprintf("/diagnostic-tools/v2/ip-addresses/%s/is-cdn-ip?"+clientTypeKey+"=%s", args[0], clientTypeValue), nil)
 		if resp.StatusCode == 200 {
 			var respStruct map[string]bool
 			var respStructJson VerifyIpJson

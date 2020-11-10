@@ -29,7 +29,7 @@ var userDiagnosticsListCmd = &cobra.Command{
 	Short:   userDiagnosticsListShortDescription,
 	Long:    userDiagnosticsListLongDescription,
 	Run: func(cmd *cobra.Command, args []string) {
-		resp, byt := doHTTPRequest("GET", "/diagnostic-tools/v2/end-user-links", nil)
+		resp, byt := doHTTPRequest("GET", "/diagnostic-tools/v2/end-user-links?"+clientTypeKey+"="+clientTypeValue, nil)
 		if resp.StatusCode == 200 {
 			var responseStruct Wrapper
 			var responseStructJson EndUserDiagnosticLinkJson

@@ -59,9 +59,9 @@ var digCmd = &cobra.Command{
 		var url string
 		switch id {
 		case 0:
-			url = fmt.Sprintf("/diagnostic-tools/v2/ip-addresses/%s/dig-info?hostName=%s&queryType=%s", addr, args[0], queryType)
+			url = fmt.Sprintf("/diagnostic-tools/v2/ip-addresses/%s/dig-info?hostName=%s&queryType=%s&"+clientTypeKey+"=%s", addr, args[0], queryType, clientTypeValue)
 		case 1:
-			url = fmt.Sprintf("/diagnostic-tools/v2/ghost-locations/%s/dig-info?hostName=%s&queryType=%s", addr, args[0], queryType)
+			url = fmt.Sprintf("/diagnostic-tools/v2/ghost-locations/%s/dig-info?hostName=%s&queryType=%s&"+clientTypeKey+"=%s", addr, args[0], queryType, clientTypeValue)
 		case 2:
 			fmt.Printf("%s", args[1])
 			printWarning(" is not a valid IP address or Ghost Location")

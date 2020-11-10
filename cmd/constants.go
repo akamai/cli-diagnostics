@@ -307,3 +307,9 @@ const (
 
 	edgeIpMessage = "Edge IP is not shown either because of a system error or the client DNS has an ECS (EDNS Client Subnet)."
 )
+
+//generic constants
+const (
+	clientTypeKey   = "clientType"
+	clientTypeValue = "cli"
+)

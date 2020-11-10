@@ -34,7 +34,7 @@ var translateErrorCmd = &cobra.Command{
 			printWarning("Invalid Error String")
 			os.Exit(1)
 		}
-		resp, byt := doHTTPRequest("GET", fmt.Sprintf("/diagnostic-tools/v2/errors/%s/translated-error", args[0]), nil)
+		resp, byt := doHTTPRequest("GET", fmt.Sprintf("/diagnostic-tools/v2/errors/%s/translated-error?"+clientTypeKey+"=%s", args[0], clientTypeValue), nil)
 		if resp.StatusCode == 200 {
 			var responseStruct Wrapper
 			var responseStructJson TranslatedErrorJosn

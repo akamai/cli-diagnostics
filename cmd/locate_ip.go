@@ -36,7 +36,7 @@ var locateIpCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
-		resp, byt := doHTTPRequest("GET", fmt.Sprintf("/diagnostic-tools/v2/ip-addresses/%s/geo-location", args[0]), nil)
+		resp, byt := doHTTPRequest("GET", fmt.Sprintf("/diagnostic-tools/v2/ip-addresses/%s/geo-location?"+clientTypeKey+"=%s", args[0], clientTypeValue), nil)
 
 		if resp.StatusCode == 200 {
 			var respStruct Wrapper

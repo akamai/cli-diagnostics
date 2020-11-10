@@ -53,6 +53,7 @@ var debugUrlCmd = &cobra.Command{
 			}
 			parameters.Add("edgeIp", edgeIPflag)
 		}
+		parameters.Add(clientTypeKey, clientTypeValue)
 		Url.RawQuery = parameters.Encode()
 		resp, byt := doHTTPRequest("GET", Url.String(), nil)
 		if resp.StatusCode == 200 {

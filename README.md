@@ -1,3 +1,9 @@
+<!--esi 
+<esi:assign name="dac_stylesheets" value="['/stylesheets/screen.css']" />
+<esi:assign name="dac_footer_js" value="['/javascripts/app/toc.js']" />
+<esi:eval src="/internal/header.html?http" dca="esi" />
+-->
+
 # Diagnostic Tools CLI
 
 * [Get Started with the Diagnostic Tools CLI](#get-started-with-the-diagnostic-tools-cli)
@@ -277,3 +283,7 @@ This flag returns the information in JSON format.
 Copyright © 2018-2020 Akamai Technologies, Inc.
 
 Your use of Akamai's products and services is subject to the terms and provisions outlined in [Akamai's legal policies](https://www.akamai.com/us/en/privacy-policies/).
+
+<!--esi 
+<esi:eval src="/internal/footer.html?http" dca="esi" />
+-->

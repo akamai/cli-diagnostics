@@ -54,6 +54,8 @@
 
     * [--json](#--json)
 
+* [Windows 10 2018 version](#windows-10-2018-version)  
+
 * [Notice](#notice)
 
 # Get Started with the Diagnostic Tools CLI
@@ -271,6 +273,11 @@ This flag returns the version.
 
 ### `--json`
 This flag returns the information in JSON format.
+
+# Windows 10 2018 version
+If you're using Windows 10, 2018 version and you're having problems running the Diagnostic Tools 
+CLI, we recommend you try the following work-around. In the downloaded repository, add the `.exe` 
+suffix to the `akamai-diagnostics` executable file.
 
 # Notice
 

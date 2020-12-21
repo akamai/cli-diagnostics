@@ -16,8 +16,8 @@ package cmd
 
 //root
 const (
-	rootShortDescription = "The Diagnostic Tools CLI allows you to diagnose server, ESI, DNS, and network issues Akamai customers experience when delivering content to their end users."
-	rootLongDescription  = `The Diagnostic Tools CLI allows you to diagnose server, ESI, DNS, and network issues Akamai customers experience when delivering content to their end users.
+	rootShortDescription = "NEW ---- The Diagnostic Tools CLI allows you to diagnose server, ESI, DNS, and network issues Akamai customers experience when delivering content to their end users."
+	rootLongDescription  = `NEW ----  The Diagnostic Tools CLI allows you to diagnose server, ESI, DNS, and network issues Akamai customers experience when delivering content to their end users.
 
     Run the process in background, 
     linux : redirect the output to a textfile and use ampersand &

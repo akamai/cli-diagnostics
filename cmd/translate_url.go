@@ -1,80 +1,35 @@
-// Copyright 2020. Akamai Technologies, Inc
-
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-
-// 	http://www.apache.org/licenses/LICENSE-2.0
-
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package cmd
 
 import (
-	"encoding/json"
-	"fmt"
-	"net/url"
-	"os"
-
+	"github.com/akamai/cli-diagnostics/internal"
 	"github.com/spf13/cobra"
 )
 
-// translateUrlCmd represents the translateUrl command
+var translateUrlRequest internal.ArlRequest
+
 var translateUrlCmd = &cobra.Command{
 	Use:     translateUrlUse,
-	Aliases: []string{"translateUrl", "translateurl"},
-	Args:    cobra.ExactArgs(1),
-	Short:   translateUrlShortDescription,
-	Long:    translateUrlLongDescription,
+	Example: translateUrlExample,
+	Aliases: []string{"tu"},
+	Args:    cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		if !checkAbsoluteURL(args[0]) {
-			printWarning("URL is invalid, e.g., http://www.example.com")
-			os.Exit(1)
-		}
-		Url, _ := url.Parse("/diagnostic-tools/v2/translated-url")
-		parameters := url.Values{}
-		parameters.Add("url", args[0])
-		parameters.Add(clientTypeKey, clientTypeValue)
-		Url.RawQuery = parameters.Encode()
-		resp, byt := doHTTPRequest("GET", Url.String(), nil)
 
-		if resp.StatusCode == 200 {
-			var respStruct Wrapper
-			var respStructJson TranslateURLJson
+		eghc := internal.NewEdgeGridHttpClient(globalFlags.edgeRcPath, globalFlags.edgeRcSection, globalFlags.accountSwitchKey)
+		api := internal.NewApiClient(*eghc)
+		svc := internal.NewService(*api, cmd, globalFlags.json)
+		validator := internal.NewValidator(cmd, jsonData)
 
-			err := json.Unmarshal(*byt, &respStruct)
-			if err != nil {
-				fmt.Println(err)
-				os.Exit(1)
-			}
+		validator.ValidateTranslateUrlFields(args, &translateUrlRequest)
+		svc.TranslateUrl(translateUrlRequest)
 
-			if jsonString {
-				respStructJson.Url = args[0]
-				respStructJson.ReportedTime = getReportedTime()
-				respStructJson.TranlatedURL = respStruct.TranlatedURL
-				resJson, _ := json.MarshalIndent(respStructJson, "", "  ")
-				fmt.Println(string(resJson))
-				return
-			}
-
-			colorPrintf("yellow", translateUrl)
-			fmt.Println()
-			printLabelAndValue(typeCode, respStruct.TranlatedURL.TypeCode)
-			printLabelAndValue(originServer, respStruct.TranlatedURL.OriginServer)
-			printLabelAndValue(cpCode, respStruct.TranlatedURL.CpCode)
-			printLabelAndValue(serialNumber, respStruct.TranlatedURL.SerialNumber)
-			printLabelAndValue(ttl, respStruct.TranlatedURL.TTL)
-		} else {
-			printResponseError(byt)
-		}
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(translateUrlCmd)
+	translateUrlCmd.Flags().SortFlags = false
+
+	translateUrlCmd.Short = internal.GetMessageForKey(translateUrlCmd, internal.Short)
+	translateUrlCmd.Long = internal.GetMessageForKey(translateUrlCmd, internal.Long)
 
 }

@@ -18,7 +18,7 @@ import (
 	edgegrid "github.com/akamai/AkamaiOPEN-edgegrid-golang"
 )
 
-var config edgegrid.Config
+var econfig edgegrid.Config
 
 type GeoLocation struct {
 	AreaCode    string  `json:"areaCode"`
@@ -53,6 +53,12 @@ type DigInfo struct {
 	AnswerSection    []DnsRecord `json:"answerSection"`
 	AuthoritySection []DnsRecord `json:"authoritySection"`
 	Result           string      `json:"result"`
+}
+
+type CurlResults struct {
+	HttpStatusCode  int               `json:"httpStatusCode"`
+	ResponseHeaders map[string]string `json:"responseHeaders"`
+	ResponseBody    string            `json:"responseBody"`
 }
 
 type Wrapper struct {
@@ -121,17 +127,6 @@ type TranslatedError struct {
 	Timestamp        string `json:"timestamp"`
 	UserAgent        string `json:"userAgent"`
 	WafDetails       string `json:wafDetails`
-}
-
-type CurlRequest struct {
-	Url       string `json:"url"`
-	UserAgent string `json:"UserAgent"`
-}
-
-type CurlResults struct {
-	HttpStatusCode  int               `json:"httpStatusCode"`
-	ResponseHeaders map[string]string `json:"responseHeaders"`
-	ResponseBody    string            `json:"responseBody"`
 }
 
 type DebugUrl struct {
@@ -246,4 +241,21 @@ type DnsRecord struct {
 	RecordType      string `json:"recordType"`
 	PreferenceValue string `json:"preferenceValue"`
 	Value           string `json:"value"`
+}
+
+type ConnectivityProblemsRequest struct {
+	Url            string   `json:"url"`
+	EdgeLocationId string   `json:"edgeLocationId"`
+	SpoofEdgeIp    string   `json:"spoofEdgeIp,omitempty"`
+	ClientIp       string   `json:"clientIp,omitempty"`
+	RequestHeaders []string `json:"requestHeaders,omitempty"`
+	IpVersion      string   `json:"ipVersion,omitempty"`
+	PacketType     string   `json:"packetType,omitempty"`
+	Port           int      `json:"port,omitempty"`
+}
+
+type ConnectivityProblemsResponse struct {
+	ExecutionStatus string `json:"executionStatus"`
+	RetryAfter      int    `json:"retryAfter"`
+	Link            string `json:"link"`
 }

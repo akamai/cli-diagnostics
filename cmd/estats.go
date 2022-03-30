@@ -1,73 +1,49 @@
-// Copyright 2020. Akamai Technologies, Inc
-
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-
-// 	http://www.apache.org/licenses/LICENSE-2.0
-
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package cmd
 
 import (
-	"encoding/json"
-	"fmt"
-	"os"
-	"strconv"
-
+	"github.com/akamai/cli-diagnostics/internal"
 	"github.com/spf13/cobra"
 )
 
-// errorStatsCmd represents the errorStats command
+var logsEstatsFlag bool
+var enhancedTlsEstatsFlag bool
+var standardTlsEstatsFlag bool
+var edgeErrorsEstatsFlag bool
+var originErrorsEstatsFlag bool
+
+var estatsRequest internal.EstatsRequest
+
 var errorStatsCmd = &cobra.Command{
-	Use:   estatsUse,
-	Args:  cobra.ExactArgs(1),
-	Short: estatsShortDescription,
-	Long:  estatsLongDescription,
+	Use:     estatsUse,
+	Example: estatsExample,
+	Args:    cobra.ExactArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
-		var url string
-		if _, err := strconv.Atoi(args[0]); err == nil {
-			url = fmt.Sprintf("/diagnostic-tools/v2/cpcodes/%s/estats?"+clientTypeKey+"=%s", args[0], clientTypeValue)
-		} else if checkAbsoluteURL(args[0]) {
-			url = "/diagnostic-tools/v2/estats?url=" + args[0] + "&" + clientTypeKey + "=" + clientTypeValue
-		} else {
-			printWarning("URL or CP code is invalid, e.g., http://www.example.com or 123456")
-			os.Exit(1)
-		}
-		resp, byt := doHTTPRequest("GET", url, nil)
 
-		if resp.StatusCode == 200 {
-			var responseStruct Wrapper
-			var responseStructJson EstatsJson
-			err := json.Unmarshal(*byt, &responseStruct)
-			if err != nil {
-				fmt.Println(err)
-				os.Exit(1)
-			}
+		eghc := internal.NewEdgeGridHttpClient(globalFlags.edgeRcPath, globalFlags.edgeRcSection, globalFlags.accountSwitchKey)
+		api := internal.NewApiClient(*eghc)
+		svc := internal.NewService(*api, cmd, globalFlags.json)
+		validator := internal.NewValidator(cmd, jsonData)
 
-			if jsonString {
-				responseStructJson.UrlorCpCode = args[0]
-				responseStructJson.ReportedTime = getReportedTime()
-				responseStructJson.Estats = responseStruct.Estats
-				resJson, _ := json.MarshalIndent(responseStructJson, "", "  ")
-				resJson = getDecodedResponse(resJson)
-				fmt.Println(string(resJson))
-				return
-			}
+		validator.ValidateEstatsFields(args, &estatsRequest, logsEstatsFlag, enhancedTlsEstatsFlag, standardTlsEstatsFlag, edgeErrorsEstatsFlag, originErrorsEstatsFlag)
+		svc.Estats(estatsRequest, logsEstatsFlag)
 
-			printErrorStats(responseStruct.Estats)
-		} else {
-			printResponseError(byt)
-		}
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(errorStatsCmd)
+
+	errorStatsCmd.Flags().SortFlags = false
+
+	errorStatsCmd.Short = internal.GetMessageForKey(errorStatsCmd, internal.Short)
+	errorStatsCmd.Long = internal.GetMessageForKey(errorStatsCmd, internal.Long)
+
+	errorStatsCmd.Flags().StringVarP(&estatsRequest.Url, "url", "u", "", internal.GetMessageForKey(errorStatsCmd, "url"))
+	errorStatsCmd.Flags().IntVarP(&estatsRequest.CpCode, "cp-code", "c", 0, internal.GetMessageForKey(errorStatsCmd, "cpCode"))
+	errorStatsCmd.Flags().BoolVar(&logsEstatsFlag, "logs", false, internal.GetMessageForKey(errorStatsCmd, "logs"))
+	errorStatsCmd.Flags().BoolVar(&enhancedTlsEstatsFlag, "enhanced-tls", false, internal.GetMessageForKey(errorStatsCmd, "enhancedTls"))
+	errorStatsCmd.Flags().BoolVar(&standardTlsEstatsFlag, "standard-tls", false, internal.GetMessageForKey(errorStatsCmd, "standardTls"))
+	errorStatsCmd.Flags().BoolVarP(&edgeErrorsEstatsFlag, "edge-errors", "e", false, internal.GetMessageForKey(errorStatsCmd, "edgeErrors"))
+	errorStatsCmd.Flags().BoolVarP(&originErrorsEstatsFlag, "origin-errors", "o", false, internal.GetMessageForKey(errorStatsCmd, "originErrors"))
 
 }

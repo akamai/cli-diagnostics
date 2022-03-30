@@ -65,14 +65,6 @@ type TranslatedErrorJosn struct {
 	TranslatedError *TranslatedError `json:"translatedError"`
 }
 
-type CurlResultsJson struct {
-	Url                   string       `json:"url"`
-	IpAddressOrLocationId string       `json:"ipAddressOrLocationId"`
-	UserAgent             string       `json:"userAgent"`
-	ReportedTime          string       `json:"reportedTime"`
-	Curl                  *CurlResults `json:"curlResults"`
-}
-
 type MtrDataJson struct {
 	DestinationDomain     string   `json:"destinationDomain"`
 	IpAddressOrLocationId string   `json:"isAddressOrLocationId"`

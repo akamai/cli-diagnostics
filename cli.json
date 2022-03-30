@@ -1,13 +1,13 @@
 {
     "requirements" : {
-        "go": ">=1.13"
+        "go": ">=1.17"
     },
     "commands" : [
         {
             "name":"diagnostics",
-            "version":"0.1.0",
-            "aliases": ["diag", "diagnostic-tools", "edge-diagnostics"],
-            "description":"The Diagnostic Tools allows you to diagnose many common problems Akamai customers experience when delivering content to their end users.",
+            "version":"1.0.0",
+            "aliases": ["diag", "edge-diagnostics"],
+            "description":"Edge Diagnostics enables you to identify, analyze, and troubleshoot common content delivery network issues that your users may encounter.",
             "bin": "https://github.com/akamai/cli-diagnostics/releases/download/{{.Version}}/akamai-{{.Name}}-{{.Version}}-{{.OS}}{{.Arch}}{{.BinSuffix}}",
             "auto-complete": true
         }

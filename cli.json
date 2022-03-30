@@ -5,7 +5,7 @@
     "commands" : [
         {
             "name":"diagnostics",
-            "version":"1.0.0",
+            "version":"v1.0.0",
             "aliases": ["diag", "edge-diagnostics"],
             "description":"Edge Diagnostics enables you to identify, analyze, and troubleshoot common content delivery network issues that your users may encounter.",
             "bin": "https://github.com/akamai/cli-diagnostics/releases/download/{{.Version}}/akamai-{{.Name}}-{{.Version}}-{{.OS}}{{.Arch}}{{.BinSuffix}}",

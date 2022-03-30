@@ -1,31 +1,29 @@
-// Copyright 2020. Akamai Technologies, Inc
-
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-
-// 	http://www.apache.org/licenses/LICENSE-2.0
-
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package cmd
 
 import (
+	"github.com/akamai/cli-diagnostics/internal"
 	"github.com/spf13/cobra"
 )
 
-// viewDiagnosticsCmd represents the viewDiagnostics command
+var (
+	urlFlag string
+	user    string
+	active  bool
+	linkId  string
+	mtr     bool
+	dig     bool
+	curl    bool
+)
+
 var userDiagnosticsCmd = &cobra.Command{
 	Use:     userDiagnosticsUse,
-	Aliases: []string{"userDiagnostics"},
-	Short:   userDiagnosticsShortDescription,
-	Long:    userDiagnosticsLongDescription,
+	Aliases: []string{"ud"},
 }
 
 func init() {
 	rootCmd.AddCommand(userDiagnosticsCmd)
+
+	userDiagnosticsCmd.Short = internal.GetMessageForKey(userDiagnosticsCmd, internal.Short)
+	userDiagnosticsCmd.Long = internal.GetMessageForKey(userDiagnosticsCmd, internal.Long)
+
 }

@@ -1,120 +1,83 @@
-// Copyright 2020. Akamai Technologies, Inc
-
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-
-// 	http://www.apache.org/licenses/LICENSE-2.0
-
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package cmd
 
 import (
-	"fmt"
-	"os"
-
-	edgegrid "github.com/akamai/AkamaiOPEN-edgegrid-golang"
+	"github.com/akamai/cli-diagnostics/internal"
 	"github.com/fatih/color"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
+	"os"
+	"path/filepath"
+	"runtime"
+	"strconv"
 )
 
-var cfgFile string
+var jsonData []byte
 
-var edgercPath string
-var edgercSection string
-var forceColorFlag bool
-var jsonString bool
+type GlobalFlags struct {
+	edgeRcPath       string
+	edgeRcSection    string
+	forceColor       bool
+	accountSwitchKey string
+	json             bool
+}
+
+var globalFlags GlobalFlags
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use: rootUse,
+	Use: "diagnostics",
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
-		if forceColorFlag {
+		if globalFlags.forceColor {
 			color.NoColor = false
 		}
-		if viper.GetString("diagnostics.edgerc_path") == "" && edgercPath == "" {
-			printWarning(`Value required for "edgerc" and "section" flags`)
-			os.Exit(1)
-		}
-		if viper.GetString("diagnostics.section") == "" && edgercSection == "" {
-			printWarning(`Value required for "section" flag`)
-			os.Exit(1)
-		}
-		if edgercPath != "" {
-			viper.Set("diagnostics.edgerc_path", edgercPath)
-		}
-		if edgercSection != "" {
-			viper.Set("diagnostics.section", edgercSection)
-		}
 
-		viper.WriteConfig()
-		var err error
-		config, err = edgegrid.InitEdgeRc(viper.GetString("diagnostics.edgerc_path"), viper.GetString("diagnostics.section"))
-		if err != nil {
-			fmt.Println(err)
-			fmt.Println("Suggestion: Check edgerc path and section name")
-			os.Exit(1)
+		if runtime.GOOS == "windows" {
+			color.NoColor = true
 		}
-
 	},
-	Short: rootShortDescription,
-	Long:  rootLongDescription,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute() {
+func Execute(Version string) {
+	rootCmd.Version = Version
 	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		os.Exit(internal.CliErrExitCode)
 	}
-
 }
 
 func init() {
-	cobra.OnInitialize(initConfig)
-	home, err := homedir.Dir()
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-	rootCmd.PersistentFlags().StringVar(&edgercPath, "edgerc", home+"/.edgerc", edgercPathFlagDescription)
-	rootCmd.PersistentFlags().StringVar(&edgercSection, "section", "diagnostics", edgercSectionFlagDescription)
-	rootCmd.PersistentFlags().BoolVar(&forceColorFlag, "force-color", false, forceColorFlagDescription)
-	rootCmd.PersistentFlags().BoolVarP(&jsonString, "json", "", false, jsonFlagDescription)
-}
+	rootCmd.CompletionOptions.DisableDefaultCmd = true // Remove this if we choose to offer a completion command
 
-// initConfig reads in config file and ENV variables if set.
-func initConfig() {
+	jsonData = internal.ReadStdin()
 
-	home, err := homedir.Dir()
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
+	rootCmd.Flags().SortFlags = false
+	rootCmd.PersistentFlags().SortFlags = false
 
-	akaHome, isPresent := os.LookupEnv("AKAMAI_CLI_HOME")
-	if !isPresent {
-		viper.AddConfigPath(home)
-		viper.SetConfigType("ini")
-		if viper.ReadInConfig() != nil {
-			viper.WriteConfigAs(home + "/akamaiConfig/config.ini")
-		}
-	} else {
-		viper.SetConfigFile(akaHome + "/config.ini")
-		if err = viper.ReadInConfig(); err != nil {
-			viper.Set("diagnostics.edgerc_path", "")
-			viper.Set("diagnostics.section", "")
-			viper.WriteConfigAs(akaHome + "/config.ini")
+	rootCmd.Short = internal.GetMessageForKey(rootCmd, internal.Short)
+	rootCmd.Long = internal.GetMessageForKey(rootCmd, internal.Long)
+
+	defaultEdgercPath := os.Getenv("AKAMAI_EDGERC")
+	defaultEdgercSection := os.Getenv("AKAMAI_EDGERC_SECTION")
+	jsonOutput, _ := strconv.ParseBool(os.Getenv("AKAMAI_OUTPUT_JSON"))
+
+	if defaultEdgercPath == "" {
+		if home, err := homedir.Dir(); err == nil {
+			defaultEdgercPath = filepath.Join(home, ".edgerc")
 		}
 	}
-	viper.AutomaticEnv()
+
+	if defaultEdgercSection == "" {
+		defaultEdgercSection = "diagnostics"
+	}
+
+	rootCmd.PersistentFlags().StringVar(&globalFlags.edgeRcPath, "edgerc", defaultEdgercPath, internal.GetMessageForKey(rootCmd, "edgerc"))
+	rootCmd.PersistentFlags().StringVar(&globalFlags.edgeRcSection, "section", defaultEdgercSection, internal.GetMessageForKey(rootCmd, "section"))
+	rootCmd.PersistentFlags().StringVar(&globalFlags.accountSwitchKey, "account-key", "", internal.GetMessageForKey(rootCmd, "account-key"))
+	rootCmd.PersistentFlags().BoolVar(&globalFlags.forceColor, "force-color", false, internal.GetMessageForKey(rootCmd, "force-color"))
+	rootCmd.PersistentFlags().BoolVar(&globalFlags.json, "json", jsonOutput, internal.GetMessageForKey(rootCmd, "json"))
+
+	rootCmd.SetUsageTemplate(internal.CustomUsageTemplate)
+	cobra.AddTemplateFuncs(internal.UsageFuncMap)
 
 }

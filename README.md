@@ -1,4 +1,4 @@
-#Edge Diagnostics CLI (Beta)
+# Edge Diagnostics CLI (Beta)
 
 - [Get started with the Edge Diagnostics CLI](#get-started-with-the-edge-diagnostics-cli)
   - [Install Edge Diagnostics CLI](#install-edge-diagnostics-cli)

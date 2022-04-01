@@ -63,7 +63,7 @@ To make sure you always use the latest version of the CLI, run this command:
 
 `akamai update diagnostics`  
 
-### Install from binaries
+### Install and executing from binaries
 
 Follow the instructions for your operating system.
 
@@ -74,16 +74,19 @@ Once you download the appropriate binary for your system, make it executable, an
 ```sh
 $ chmod +x ~/Downloads/akamai-diagnostics-<VERSION>-<PLATFORM>
 $ mv ~/Downloads/akamai-diagnostics-<VERSION>-<PLATFORM> /usr/local/bin/akamai-diagnostics
-$ akamai-diagnostics help
 ```
 
 **Windows**
 
-Once you download the appropriate binary for your system and add the binary location to the Path variable, simply execute the binary from the command line. For example:
+Once you download the appropriate binary for your system, rename the binary to `akamai-diagnostics.exe`, and add the binary location to the `PATH` variable.
 
-```sh
-$ akamai-diagnostics help
-```
+**Execute the binaries**
+To execute the binaries, run `akamai-diagnostics [COMMAND]` where `COMMAND` is any command from the list of available commands.
+
+**Examples**:
+- `akamai-diagnostics verify-ip 123.123.123.123`
+- `akamai-diagnostics dig --hostname www.example.com`
+
 ### Compile from Source
 
 **Prerequisite:** Make sure you install Go 1.17 or later.
@@ -113,6 +116,12 @@ To compile Edge Diagnostics CLI from source:
   - For Windows, run: `go build -o akamai-diagnostics.exe`
 
 5. Move the `akamai-diagnostics` or `akamai-diagnostics.exe` binary so that it's available in your `$PATH`.
+
+6. To run any command
+
+    ```sh
+    $ akamai-diagnostics [COMMAND]
+    ```
 
 ## Work with multiple accounts
 To diagnose an issue, you may need to switch between different accounts. To do this, run the required operation with the `--account-key` flag followed by the account ID of your choice. 
@@ -477,7 +486,7 @@ Where:
 - `SOURCE_LOCATION` is a unique identifier for an edge server location closest to your users. To get this value, run the [List edge server locations](#list-edge-server-locations) operation first. 
 - `HOSTNAME` is the MTR target hostname.
 - `SOURCE_IP` is the edge server IP address you want to run MTR from. You can use the edge server IP address value from the `answerSection` array in the [Get domain details with dig](#get-domain-details-with-dig) operation response. If you run MTR for a GTM hostname, use the Test IP value returned by the [List GTM hostnames](#list-gtm-hostnames) operation.
-- `DESTINATION_IP` is the MTR destination. If you run MTR for a GTM hostname, use the Target IP value returned by the [List GTM hostnames](#list-gtm-hostnames) operation.
+- `DESTINATION_IP` is the MTR destination. If you run MTR for a GTM hostname, use the Target value returned by the [List GTM hostnames](#list-gtm-hostnames) operation.
 - the `--ip_version` flag specifies the IP version for MTR to use, either `IPV4` or `IPV6`. It's set to `IPV4` by default. Omit when running MTR for a GTM hostname.
 - the `--port` flag specifies the port number for MTR to use, either `80` or `443`. By default it's set to `80`. Omit when running MTR for a GTM hostname.
 - the `--packet_type` flag specifies the packet type for MTR to use, either `tcp` or `icmp`. By default it's set to `tcp`.
@@ -550,8 +559,8 @@ The `content-problem` operation simultaneously runs [Request content with cURL](
 
 **Command**: `content-problem URL [--client-location LOCATION] [--edge-server-ip EDGE_SERVER_IP] [--request-header REQUEST_HEADER...] [--ip-version IP_VERSION] [--run-from-site-shield-map]`, where:
 
-- `URL` is the fully qualified URL you want to run the Connectivity problems scenario for.
-- `LOCATION` is a unique identifier for an edge server location closest to your users. To get this value, run the [List edge server locations](#list-edge-server-locations) operation first. This flag is optional.  
+- `URL` is the fully qualified URL you want to run the Content problems scenario for.
+- `LOCATION` is a unique identifier for an edge server location closest to your users. To get this value, run the [List edge server locations](#list-edge-server-locations) operation first. This flag is optional.
 - `EDGE_SERVER_IP` is the IP address of the edge server you want to serve traffic from. You can use the edge server IP address value from the `answerSection` array in the [Get domain details with dig](#get-domain-details-with-dig) operation response.
 - `REQUEST_HEADER` is a customized header for the `curl` request in the format `"header: value"`. The `--request-header` flag accepts multiple values.
 - the `--ip_version` flag specifies the IP version for the problem scenario to use, either `IPV4` or `IPV6`. By default it's set to `IPv4`. 

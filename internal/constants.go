@@ -50,7 +50,7 @@ const (
 
 // Geolocation fields
 const (
-	geographicLocation = "Geographic Location"
+	geographicLocation = "GEOGRAPHIC LOCATION"
 	ipAddress          = "IP address"
 	countryCode        = "Country code"
 	regionCode         = "Region code"
@@ -68,7 +68,7 @@ const (
 	zipCode            = "Zip code"
 	proxy              = "Proxy"
 
-	networkLocation = "Network Location"
+	networkLocation = "NETWORK LOCATION"
 	network         = "Network"
 	networkType     = "Network type"
 	asNum           = "ASN"
@@ -90,7 +90,7 @@ const (
 // Edge Locations
 const (
 	Search        = "search"
-	edgeLocations = "Ghost Locations"
+	edgeLocations = "EDGE SERVER LOCATIONS"
 )
 
 // Ipa Hostnames
@@ -120,8 +120,8 @@ const (
 const curlHeaderSeparator = ":"
 
 const (
-	CliErrExitCode int = 1
-	CmdErrExitCode int = 2
+	CliErrExitCode     int = 1
+	CmdErrExitCode     int = 2
 	ParsingErrExitCode int = 3
 )
 

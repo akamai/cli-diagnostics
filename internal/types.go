@@ -154,7 +154,8 @@ type ArlContainer struct {
 
 // ErrorTranslatorRequest
 type ErrorTranslatorRequest struct {
-	ErrorCode string `json:"errorCode"`
+	ErrorCode       string `json:"errorCode"`
+	ChaseOriginLogs bool   `json:"chaseOriginLogs,omitempty"`
 }
 
 // ErrorTranslatorResponse
@@ -393,6 +394,11 @@ type HttpStatusCode struct {
 	Value      []string `json:"value"`
 }
 
+type Arl struct {
+	Comparison string   `json:"comparison"`
+	Value      []string `json:"value"`
+}
+
 type GrepRequest struct {
 	CpCodes         []int           `json:"cpCodes,omitempty"`
 	Hostnames       []string        `json:"hostnames,omitempty"`
@@ -402,7 +408,7 @@ type GrepRequest struct {
 	End             string          `json:"end"`
 	UserAgents      []string        `json:"userAgent,omitempty"`
 	HttpStatusCodes *HttpStatusCode `json:"httpStatusCodes,omitempty"`
-	Arls            []string        `json:"arls,omitempty"`
+	Arls            *Arl            `json:"arls,omitempty"`
 	ClientIps       []string        `json:"clientIps,omitempty"`
 }
 

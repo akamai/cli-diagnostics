@@ -5,6 +5,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var chaseOriginLogs bool
 var errorTranslatorRequest internal.ErrorTranslatorRequest
 
 var translateErrorCmd = &cobra.Command{
@@ -19,7 +20,7 @@ var translateErrorCmd = &cobra.Command{
 		svc := internal.NewService(*api, cmd, globalFlags.json)
 		validator := internal.NewValidator(cmd, jsonData)
 
-		validator.ValidateTranslateErrorFields(args, &errorTranslatorRequest)
+		validator.ValidateTranslateErrorFields(args, &errorTranslatorRequest, chaseOriginLogs)
 		svc.TranslateError(errorTranslatorRequest)
 
 	},
@@ -31,4 +32,6 @@ func init() {
 
 	translateErrorCmd.Short = internal.GetMessageForKey(translateErrorCmd, internal.Short)
 	translateErrorCmd.Long = internal.GetMessageForKey(translateErrorCmd, internal.Long)
+
+	translateErrorCmd.Flags().BoolVarP(&chaseOriginLogs, "chase-origin-logs", "c", false, internal.GetMessageForKey(translateErrorCmd, "chase-origin-logs"))
 }

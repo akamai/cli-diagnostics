@@ -36,8 +36,8 @@ const (
 	translateUrlUse     = "translate-url URL"
 	translateUrlExample = ` $ akamai diagnostics translate-url http://www.example.com`
 
-	translateErrorUse     = "translate-error-string ERROR_STRING"
-	translateErrorExample = ` $ akamai diagnostics translate-error-string 9.6f64d440.1318965461.2f2b078`
+	translateErrorUse     = "translate-error-string ERROR_STRING [--chase-origin-logs]"
+	translateErrorExample = ` $ akamai diagnostics translate-error-string 9.6f64d440.1318965461.2f2b078 --chase-origin-logs`
 
 	urlHealthCheckUse     = "url-health-check URL [--client-location LOCATION] [--edge-server-ip EDGE_SERVER_IP] [--ip-version IPv4|IPv6] [--port 80|443] [--packet-type TCP|ICMP] [--request-header REQUEST_HEADER...] [-q QUERY_TYPE] [--run-from-site-shield-map] [--logs] [--network-connectivity]"
 	urlHealthCheckExample = ` $ akamai diagnostics  url-health-check http://www.example.com --run-from-site-shield-map
@@ -64,9 +64,10 @@ const (
 	mtrExample = ` $ akamai diagnostics mtr --source bangalore-india --destination www.example.com --ip-version IPv4 --port 443 --packet-type icmp
  $ akamai diagnostics mtr --source bangalore-india --destination 121.121.121.121
  $ akamai diagnostics mtr --source 123.123.123.123 --destination 121.121.121.121
+ $ akamai diagnostics mtr --source 1.1.1.1 --destination 2.2.2.2 --gtm-hostname example.com
  $ akamai diagnostics mtr --source 123.123.123.123 --destination 121.121.121.121 --site-shield-hostname www.example1.com`
 
-	grepUse     = "grep EDGE_IP START_TIME END_TIME [--hostname HOSTNAME ... | --cp-code CP_CODE ...] [--client-ip CLIENT_IP ...] [--user-agent USER_AGENT ...] [--http-status-code HTTP_STATUS_CODE ... | --error-status-codes] [--arl ARL ...] [-r] [-f]"
+	grepUse     = "grep EDGE_IP START_TIME END_TIME {--hostname HOSTNAME ... | --cp-code CP_CODE ...} [--client-ip CLIENT_IP ...] [--user-agent USER_AGENT ...] [--http-status-code HTTP_STATUS_CODE ... | --error-status-codes] [--arl ARL ...] [-r] [-f]"
 	grepExample = ` $ akamai diagnostics grep 123.123.123.123  "2021-01-01T01:00:00.000Z" "2021-01-01T01:30:00.000Z" --hostname "www.akamai.com" --client-ip "123.123.123.123" --http-status-code "400, 401" -rf
  $ akamai diagnostics grep 123.123.123.123  "2021-01-01T01:00:00.000Z" "2021-01-01T01:30:00.000Z" --cp-code 12345 --client-ip "123.123.123.123" --http-status-code "400, 401" -rf`
 

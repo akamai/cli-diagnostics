@@ -154,8 +154,8 @@ type ArlContainer struct {
 
 // ErrorTranslatorRequest
 type ErrorTranslatorRequest struct {
-	ErrorCode       string `json:"errorCode"`
-	ChaseOriginLogs bool   `json:"chaseOriginLogs,omitempty"`
+	ErrorCode        string `json:"errorCode"`
+	TraceForwardLogs bool   `json:"traceForwardLogs,omitempty"`
 }
 
 // ErrorTranslatorResponse

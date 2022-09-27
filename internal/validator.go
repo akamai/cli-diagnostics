@@ -492,7 +492,7 @@ func (validator Validator) ValidateGrepFields(args []string, grepRequest *GrepRe
 
 }
 
-func (validator Validator) ValidateTranslateErrorFields(args []string, errorTranslatorRequest *ErrorTranslatorRequest, chaseOriginLogs bool) {
+func (validator Validator) ValidateTranslateErrorFields(args []string, errorTranslatorRequest *ErrorTranslatorRequest, traceForwardLogs bool) {
 
 	if validator.jsonData != nil {
 		if len(args) > 0 {
@@ -506,7 +506,7 @@ func (validator Validator) ValidateTranslateErrorFields(args []string, errorTran
 		AbortWithUsageAndMessage(validator.cmd, fmt.Sprintf(GetGlobalErrorMessage(MissingArgs), 1, len(args)), CmdErrExitCode)
 	}
 	errorTranslatorRequest.ErrorCode = args[0]
-	errorTranslatorRequest.ChaseOriginLogs = chaseOriginLogs
+	errorTranslatorRequest.TraceForwardLogs = traceForwardLogs
 
 }
 

@@ -36,8 +36,8 @@ const (
 	translateUrlUse     = "translate-url URL"
 	translateUrlExample = ` $ akamai diagnostics translate-url http://www.example.com`
 
-	translateErrorUse     = "translate-error-string ERROR_STRING [--chase-origin-logs]"
-	translateErrorExample = ` $ akamai diagnostics translate-error-string 9.6f64d440.1318965461.2f2b078 --chase-origin-logs`
+	translateErrorUse     = "translate-error-string ERROR_STRING [--trace-forward-logs]"
+	translateErrorExample = ` $ akamai diagnostics translate-error-string 9.6f64d440.1318965461.2f2b078 --trace-forward-logs`
 
 	urlHealthCheckUse     = "url-health-check URL [--client-location LOCATION] [--edge-server-ip EDGE_SERVER_IP] [--ip-version IPv4|IPv6] [--port 80|443] [--packet-type TCP|ICMP] [--request-header REQUEST_HEADER...] [-q QUERY_TYPE] [--run-from-site-shield-map] [--logs] [--network-connectivity]"
 	urlHealthCheckExample = ` $ akamai diagnostics  url-health-check http://www.example.com --run-from-site-shield-map

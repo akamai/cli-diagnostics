@@ -233,7 +233,7 @@
         "spinnerMessage": "Getting error details",
         "defaultError": "Failed to get error details.",
         "errorString": "Alphanumeric part of the error reference code you want to get the data for.",
-        "chaseOriginLogs": "Optional. Returns logs from all edge servers serving the reference code."
+        "traceForwardLogs": "Optional. Returns logs from all edge servers serving the reference code."
         }
       ,
       "edgeLocations": {

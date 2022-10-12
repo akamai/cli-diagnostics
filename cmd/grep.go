@@ -6,6 +6,7 @@ import (
 )
 
 var httpStatusCode []string
+var arls []string
 var errorStatusCodeFlag bool
 var clientRequestFlag bool
 var forwardRequestFlag bool
@@ -23,7 +24,7 @@ var grepCmd = &cobra.Command{
 		svc := internal.NewService(*api, cmd, globalFlags.json)
 		validator := internal.NewValidator(cmd, jsonData)
 
-		validator.ValidateGrepFields(args, &grepRequest, errorStatusCodeFlag, clientRequestFlag, forwardRequestFlag, httpStatusCode)
+		validator.ValidateGrepFields(args, &grepRequest, errorStatusCodeFlag, clientRequestFlag, forwardRequestFlag, httpStatusCode, arls)
 		svc.Grep(grepRequest)
 
 	},
@@ -41,7 +42,7 @@ func init() {
 	grepCmd.Flags().StringSliceVar(&grepRequest.UserAgents, "user-agent", nil, internal.GetMessageForKey(grepCmd, "userAgent"))
 	grepCmd.Flags().StringSliceVar(&httpStatusCode, "http-status-code", nil, internal.GetMessageForKey(grepCmd, "httpStatusCode"))
 	grepCmd.Flags().BoolVar(&errorStatusCodeFlag, "error-status-codes", false, internal.GetMessageForKey(grepCmd, "errorStatusCodes"))
-	grepCmd.Flags().StringSliceVarP(&grepRequest.Arls, "arl", "a", nil, internal.GetMessageForKey(grepCmd, "arl"))
+	grepCmd.Flags().StringSliceVarP(&arls, "arl", "a", nil, internal.GetMessageForKey(grepCmd, "arl"))
 	grepCmd.Flags().BoolVarP(&clientRequestFlag, "r", "r", true, internal.GetMessageForKey(grepCmd, "r"))
 	grepCmd.Flags().BoolVarP(&forwardRequestFlag, "f", "f", false, internal.GetMessageForKey(grepCmd, "f"))
 

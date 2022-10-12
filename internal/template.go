@@ -1,7 +1,7 @@
 package internal
 
-var isEdgeIpTemplate = "IP address {{.IpAddress}} is an Edge IP"
-var isNotEdgeIpTemplate = "IP address {{.IpAddress}} is not an Edge IP"
+var isEdgeIpTemplate = "{{.IpAddress}} is an Edge IP"
+var isNotEdgeIpTemplate = "{{.IpAddress}} is not an Edge IP"
 
 var digTemplate = `
 {{ header "DIG RESULTS" }}
@@ -19,18 +19,18 @@ var digTemplate = `
 var userDiagnosticsCreateTemplate = `
 {{ bold "Here is your link!"}}
 Copy and send the link below to the end users who are experiencing the content delivery problem.
-Each link is active for 7 days and has a limit of 50 submissions."
+Each link is active for 7 days and has a limit of 50 submissions.
 
 link: {{ bold .DiagnosticLink}}`
 
 var userDiagnosticsGetTemplate = `
-{{ header "User Diagnostic Data Result"}}
+{{ header "USER DIAGNOSTIC DATA"}}
 {{ bold "Generated on"}}: {{  .CreatedTime}}
 {{ bold "Notes" }}: {{ .Note }}
 {{ bold "URL" }}: {{ .URL }}
 {{ bold "Diagnostic Link" }}: {{ .DiagnosticLink }}
 {{ bold "Link Status" }}: {{ capsToTitle .DiagnosticLinkStatus }}
-{{ italic "View the JSON output for diagnostic details, use --json"}}
+{{ italic "To check the data in JSON format, add the '--json' flag."}}
 `
 var translateUrlTemplate = `
 {{ header "Translate url"}}

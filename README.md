@@ -3,12 +3,12 @@
 - [Get started with the Edge Diagnostics CLI](#get-started-with-the-edge-diagnostics-cli)
   - [Install Edge Diagnostics CLI](#install-edge-diagnostics-cli)
     - [Install using the Akamai CLI (recommended)](#install-using-the-akamai-cli-recommended)
-    - [Install from binaries](#install-from-binaries)
+    - [Install and execute from binaries](#install-and-execute-from-binaries)
     - [Compile from Source](#compile-from-source)
   - [Work with multiple accounts](#work-with-multiple-accounts)
   - [API credentials](#api-credentials)
     - [Using the .edgerc file](#using-the-edgerc-file)
-    - [Setting environmental variables](#setting-environmental-variables)
+    - [Setting environment variables](#setting-environment-variables)
   - [JSON support](#json-support)
 - [Operation categories](#operation-categories)
 - [Available operations and commands](#available-operations-and-commands)
@@ -63,7 +63,7 @@ To make sure you always use the latest version of the CLI, run this command:
 
 `akamai update diagnostics`  
 
-### Install and executing from binaries
+### Install and execute from binaries
 
 Follow the instructions for your operating system.
 
@@ -81,9 +81,9 @@ $ mv ~/Downloads/akamai-diagnostics-<VERSION>-<PLATFORM> /usr/local/bin/akamai-d
 Once you download the appropriate binary for your system, rename the binary to `akamai-diagnostics.exe`, and add the binary location to the `PATH` variable.
 
 **Execute the binaries**
-To execute the binaries, run `akamai-diagnostics [COMMAND]` where `COMMAND` is any command from the list of available commands.
+To execute the binaries, run `akamai-diagnostics [COMMAND]` where `COMMAND` is any command from the list of available commands. 
 
-**Examples**:
+**Examples**: 
 - `akamai-diagnostics verify-ip 123.123.123.123`
 - `akamai-diagnostics dig --hostname www.example.com`
 
@@ -130,13 +130,13 @@ For example: `akamai diagnostics --account-key 1-1TJZFB ipa-hostnames`
 
 ## API credentials
 The Edge Diagnostics CLI requires your authentication credentials to execute any command. To create your credentials, see [Create a quick API client](https://techdocs.akamai.com/developer/docs/set-up-authentication-credentials#create-a-quick-api-client).
-You can provide these API credentials to the CLI in two ways, either through the `.edgerc` file or by setting the environmental variables.
+You can provide these API credentials to the CLI in two ways, either through the `.edgerc` file or by setting the environment variables.
 
 ### Using the .edgerc file
 Akamai-branded packages use an `.edgerc` file for standard EdgeGrid authentication. To set up your `.edgerc` file, see [Add credential to .edgerc file](https://techdocs.akamai.com/developer/docs/set-up-authentication-credentials#add-credential-to-edgerc-file). We recommend to change the `default` header name in the `.edgerc` file to `diagnostics`.
 
-### Setting environmental variables
-You can set these environmental variables to provide your API credentials:
+### Setting environment variables
+You can set these environment variables to provide your API credentials:
 - `AKAMAI_DIAGNOSTICS_HOST`. 
 - `AKAMAI_DIAGNOSTICS_CLIENT_TOKEN`.
 - `AKAMAI_DIAGNOSTICS_CLIENT_SECRET`.
@@ -148,12 +148,12 @@ Make sure that the environment variable `AKAMAI_EDGERC_SECTION` is set to `diagn
 Instead of creating requests directly in CLI, you can request to run a command on a specific JSON file. 
 
 For example, instead of such MTR command:
- `akamai diagnostics mtr --source bangalore-india --destination www.akamai.com --ip-version IPv4 --port 443 --packet-type icmp`
+`akamai diagnostics mtr --source bangalore-india --destination www.akamai.com --ip-version IPv4 --port 443 --packet-type ICMP`
 
 You can run 
 `akamai diagnostics mtr < mtr_data_file.json` command. Where the JSON file has all the required data for the MTR request. 
 
-To create the JSON files, you can use the documentation for the appropriate [API operation](https://techdocs.akamai.com/edge-diagnostics/reference/edge-diagnostics-api-1). Add your values to `BODY PARAMS` fields, copy the body of your request from the CURL code sample, and save it as a JSON file. 
+To create a valid JSON file, refer to the example JSON file for an operation.
 
 # Operation categories
 Check these descriptions to learn more about the available categories of tools and tools they include.
@@ -209,9 +209,9 @@ The `edge-locations` command lists active edge server locations you can use to r
 
 
 ## List GTM hostnames
-The `gtm-hostnames` command lists GTM properties you have access to. You can also request their test and target IPs. The returned values can be used to run [Get domain details with dig](#get-domain-details-with-dig) and [Test network connectivity with MTR](#test-network-connectivity-with-mtr) operations for a GTM hostname.
+The `gtm-hostnames` command lists GTM properties you have access to. You can also request their test IPs and target IPs or hostnames. The returned values can be used to run [Get domain details with dig](#get-domain-details-with-dig) and [Test network connectivity with MTR](#test-network-connectivity-with-mtr) operations for a GTM hostname.
 
-**Command**: `gtm-hostnames [--test-target-ip GTM_HOSTNAME]` where the `--test-target-ip` flag requests the test and target IPs for a `GTM_HOSTNAME`. This flag is optional.
+**Command**: `gtm-hostnames [--test-target-ip GTM_HOSTNAME]` where the `--test-target-ip` flag requests the test IPs and target IPs or hostnames for a `GTM_HOSTNAME`. This flag is optional.
 
 **Examples**: 
 - `akamai diagnostics gtm-hostnames`
@@ -246,9 +246,17 @@ Where:
 - the `--notes` flag adds the `NOTE` about the link to be generated or issues users of the URL or IPA are experiencing. Notes can have up to 400 characters. This flag is optional. 
 
 **Examples**: 
-- `akamai diagnostics user-diagnostics create --url https://www.akamai.com`
-- `akamai diagnostics user-diagnostics create --url https://www.akamai.com --notes "Diagnostic data of users of www.akamai.com".`
-- `akamai diagnostics user-diagnostics create --ipa-hostname www.akamai.com --notes "Tokyo olympics"`
+- Commands: 
+    - `akamai diagnostics user-diagnostics create --url https://www.akamai.com`
+    - `akamai diagnostics user-diagnostics create --url https://www.akamai.com --notes "Diagnostic data of users of www.akamai.com".`
+    - `akamai diagnostics user-diagnostics create --ipa-hostname www.akamai.com --notes "Tokyo olympics"`
+- [JSON file](#json-support):
+    ```
+    {
+      "note": "Users can't access the website",
+      "url": "https://www.example.com"
+    }
+    ```
 
 **Expected output**: The response includes the link you can send to users experiencing issues 
 with the hostname. When a user clicks the link, Edge Diagnostics gathers necessary data 
@@ -299,12 +307,17 @@ The `--mtr`, `--dig`, and `curl` flags are optional and can be used together.
 ## Translate an error string
 The `translate-error-string` command fetches summary and logs for an error with a specific reference code. You can also translate any Global Request Number (GRN) generated by Property Manager's Global Request Number behavior. Data is available from either the last 6 or 24 hours depending on the server and traffic conditions.
 
-All error reference codes are valid for 48 hours since their occurrence.
-
 **Command**: `translate-error-string ERROR_STRING` where `ERROR_STRING` is the alphanumeric part of the error reference code you want to 
 get the data for.
 
-**Examples**: `akamai diagnostics translate-error-string 9.6f64d440.1318965461.2f2b078`
+**Examples**: 
+- Command: `akamai diagnostics translate-error-string 9.6f64d440.1318965461.2f2b078`
+- [JSON file](#json-support):
+    ```
+    {
+      "errorCode": "1.5e3b5b68.1621415935.409841"
+    }
+    ```
 
 **Expected outcome**: The response includes the error translation in the JSON format. For more details, you can check the [API response](https://techdocs.akamai.com/edge-diagnostics/reference/error-translator#post-error-translator) description.
 
@@ -312,9 +325,21 @@ get the data for.
 
 The `verify-ip` command checks whether a specific IP address belongs to an edge server.
 
-**Command**: `verify-ip IP_ADDRESS ...` where `IP_ADDRESS` is the IP address you want to verify. You can enter multiple data.
+**Command**: `verify-ip IP_ADDRESS ...` where `IP_ADDRESS` is the IP address you want to verify. You can enter up to 10 values.
 
-**Examples**: `akamai diagnostics verify-ip 123.123.123.123 2001:db8::2:1`
+**Examples**: 
+- Command: `akamai diagnostics verify-ip 123.123.123.123 2001:db8::2:1`
+- [JSON file](#json-support):
+
+    ```
+    {
+      "ipAddresses": [
+        "1.1.1.1",
+        "3.3.3.3"
+      ]
+    }
+    ```
+
 
 **Expected output**: The response notes whether the IP address is for an edge server. 
 
@@ -322,9 +347,19 @@ The `verify-ip` command checks whether a specific IP address belongs to an edge 
 ## Locate an IP network
 The `locate-ip` command provides network geolocation and details for an edge server IP address.
 
-**Command**: `locate-ip IP_ADDRESS ...` where `IP_ADDRESS` is the IP address you want to get the data for. You can enter multiple data.
+**Command**: `locate-ip IP_ADDRESS ...` where `IP_ADDRESS` is the IP address you want to get the data for. You can enter up to 10 values.
 
-**Examples**: `akamai diagnostics locate-ip 123.123.123.123 2001:db8::2:1`
+**Examples**: 
+- Command: `akamai diagnostics locate-ip 123.123.123.123 2001:db8::2:1`
+- [JSON file](#json-support):
+    ```
+    {
+      "ipAddresses": [
+        "1.1.1.1",
+        "3.3.3.3"
+      ]
+    }
+    ```
 
 **Expected output**: The response includes network geolocation data for a network of the IP address. For more details, you can check the [API response](https://techdocs.akamai.com/edge-diagnostics/reference/post-locate-ip) description.
 
@@ -334,7 +369,15 @@ The `verify-locate-ip` command verifies if an IP address belongs to an edge serv
 
 **Command**: `verify-locate-ip IP_ADDRESS` where `IP_ADDRESS` is the IP address you want to get the data for.
 
-**Examples**: `akamai diagnostics verify-locate-ip 123.123.123.123`
+**Examples**: 
+- Command: `akamai diagnostics verify-locate-ip 123.123.123.123`
+- [JSON file](#json-support):
+
+    ```
+    {
+      "ipAddress": "123.123.123.123"
+    }
+    ```
 
 **Expected output**: The response includes the IP's 
 geographic and network location data. For more details, you can check the [API response](https://techdocs.akamai.com/edge-diagnostics/reference/post-verify-locate-ip) description.
@@ -342,13 +385,21 @@ geographic and network location data. For more details, you can check the [API r
 
 ## Translate an Akamaized URL
 The `translate-url` command provides basic information about an Akamaized URL, such as typecode, cache key hostname, CP code, serial number, and TTL. A URL 
-becomes an Akamaized URL (ARL) once it's on an edge server.
+becomes an [Akamaized URL (ARL)](https://techdocs.akamai.com/edge-diagnostics/docs/arl-syntax) once it's on an edge server.
 
-**Command**: `translate-url URL`, where `URL` is the fully qualified, Akamaized URL you want to get the details of.
+**Command**: `translate-url URL`, where `URL` is the fully qualified, [Akamaized URL](https://techdocs.akamai.com/edge-diagnostics/docs/arl-syntax) you want to get the details of.
 
-**Examples**: `akamai diagnostics translate-url http://www.akamai.com`
+**Examples**: 
+- Command: `akamai diagnostics translate-url http://www.akamai.com`
+- [JSON file](#json-support):
 
-**Expected outcome**: The response includes details about the requested URL. For more details, you can check the [API response](https://techdocs.akamai.com/edge-diagnostics/reference/translated-url#post-translated-url) description.
+    ```
+    {
+      "url": "http://www.akamai.com"
+    }
+    ```
+
+**Expected outcome**: The response includes details about the requested ARL. For more details, you can check the [API response](https://techdocs.akamai.com/edge-diagnostics/reference/translated-url#post-translated-url) description.
 
 
 ## Get error statistics
@@ -375,9 +426,19 @@ delivery type not used by your resource, then the results are empty. If you want
 The `--logs`, `--edge-errors`, and `--origin-errors` flags are optional and can be used together.
 
 **Examples**: 
-- `akamai diagnostics estats --url https://www.akamai.com`
-- `akamai diagnostics estats --url https://www.akamai.com --logs --standard-tls`
-- `akamai diagnostics estats --cp-code 12345 --logs --standard-tls`
+- Commands: 
+    - `akamai diagnostics estats --url https://www.akamai.com`
+    - `akamai diagnostics estats --url https://www.akamai.com --logs --standard-tls`
+    - `akamai diagnostics estats --cp-code 12345 --logs --standard-tls`
+- [JSON file](#json-support):
+    ```
+    {
+         "delivery": "STANDARD_TLS",
+         "errorType": "ORIGIN_ERRORS",
+         "url": "https://www.akamai.com",
+         "logs": true
+    }
+    ```
 
 **Expected outcome**: The response includes error statistics in the JSON format. For more details, you can check the [API response](https://techdocs.akamai.com/edge-diagnostics/reference/post-estats) description. 
 
@@ -388,7 +449,7 @@ ensure the correct Akamai features were applied to the traffic. Data is availabl
 
 **Command**: 
 - To run `grep` for a specific CP code: `grep EDGE_IP "START_TIME" "END_TIME" --cp-code CP_CODE ... [--client-ip "CLIENT_IP" ...] [--user-agent "USER_AGENT" ...] [--http-status-code HTTP_STATUS_CODE ... | --error-status-codes] [--arl ARL ...] [-r] [-f]`
-- To run `grep` for a specific hostname: `grep EDGE_IP START_TIME END_TIME --hostname HOSTNAME ... [--client-ip CLIENT_IP ...] [--user-agent USER_AGENT ...] [--http-status-code HTTP_STATUS_CODE ... | --error-status-codes] [--arl ARL ...] [-r] [-f]`
+- To run `grep` for a specific hostname: `grep EDGE_IP "START_TIME" "END_TIME" --hostname HOSTNAME ... [--client-ip CLIENT_IP ...] [--user-agent USER_AGENT ...] [--http-status-code HTTP_STATUS_CODE ... | --error-status-codes] [--arl ARL ...] [-r] [-f]`
   
 Where:
 
@@ -401,12 +462,53 @@ Where:
 - `USER_AGENT` is the user agent you want to filter the logs by. The `--user-agent` flag is optional and accepts multiple values.
 - `HTTP_STATUS_CODE` is the HTTP status code you want to filter the logs by.  The `--http-status-code` flag is optional and accepts multiple values. 
 - the `--error-status-codes` flag returns all log lines with HTTP status codes for errors (all except: 100, 101, 102, 122, 200, 201, 202, 203, 204, 205, 206, 207, 226, 300, 301, 302, 303, 304, 305, 306, 307, and 404).
-- `ARL` is the Akamaized URL you want to filter the logs by. The `--arl` flag is optional and accepts multiple values.
+- `ARL` is the [Akamaized URL](https://techdocs.akamai.com/edge-diagnostics/docs/arl-syntax) you want to filter the logs by. The `--arl` flag is optional and accepts multiple values.
 - `-r | -f | -rf` is the type of log lines you want to filter. The possible values are: `-r` for client requests to an edge server, `-f` for forward requests from an edge server to the origin, or `-rf` for both.
 
-**Examples**: 
-- `akamai diagnostics grep 123.123.123.123  "2021-04-13T14:27:06.000Z" "2021-04-13T14:59:06.000Z" --host-header "www.akamai.com" --client-ip "123.123.123.123" --http-status-code "400, 401" -rf`
-- `akamai diagnostics grep 123.123.123.123  "2021-04-13T14:27:06.000Z" "2021-04-13T14:59:06.000Z" --cp-code 12345 --client-ip "123.123.123.123" --http-status-code "400, 401" -rf`
+**Examples**:
+- Commands:  
+    - `akamai diagnostics grep 123.123.123.123  "2021-04-13T14:27:06.000Z" "2021-04-13T14:59:06.000Z" --hostname "www.akamai.com" --client-ip "123.123.123.123" --http-status-code "400, 401" -rf`
+    - `akamai diagnostics grep 123.123.123.123  "2021-04-13T14:27:06.000Z" "2021-04-13T14:59:06.000Z" --cp-code 12345 --client-ip "123.123.123.123" --http-status-code "400, 401" -rf`
+- [JSON file for CP code with all filters](#json-support):
+    ```
+    {
+      "edgeIp": "3.3.3.3",
+      "logType": "BOTH",
+      "start": "2022-03-15T06:08:40.000Z",
+      "end": "2022-03-15T06:08:43.000Z",
+      "cpCodes": [
+        "123456"
+      ],
+      "userAgents": [
+        "firefox"
+      ],
+      "clientIps": [
+        "1.1.1.1"
+      ],
+      "arls": [
+        "www.akamai.com"
+      ],
+      "httpStatusCodes": {
+        "comparison": "EQUALS",
+        "value": [
+          "200",
+          "201"
+        ]
+      }
+    }
+    ```
+- [JSON file for a hostname](#json-support):
+    ```
+    {
+      "edgeIp": "3.3.3.3",
+      "logType": "BOTH",
+      "start": "2022-03-15T06:08:40.000Z",
+      "end": "2022-03-15T06:08:43.000Z",
+      "hostnames": [
+        "www.akamai.com"
+      ]
+    }
+    ```
 
 **Expected outcome**: The response includes a standard `grep` response in the JSON format. For more details, you can check the [API response](https://techdocs.akamai.com/edge-diagnostics/reference/get-grep-request) description.
 
@@ -414,7 +516,6 @@ Where:
 The `curl` command requests content to provide the raw HTML for a URL, including response headers. You can run this 
 operation either for a specific location or an edge IP. 
 
->**_NOTE:_** Currently, Request content with cURL doesn't support requests for origin hostnames. We're working on enabling these requests soon.
 
 **Command**: 
 - To run `curl` from a specific location: `curl URL [--client-location CLIENT_LOCATION] [--ip-version IPv4|IPv6] [--request-header REQUEST_HEADER...] [--run-from-site-shield-map]`
@@ -425,15 +526,39 @@ Where:
 - `CLIENT_LOCATION` is a unique identifier for an edge server location closest to your users. To get this value, run the [List edge server locations](#list-edge-server-locations) operation first. Provide one of these flags: either `--client-location` or `--edge-server-ip`. This flag is optional.
 - `EDGE_SERVER_IP` is an IP address of an edge server you want to run `curl` from. Provide one of these flags: either `--edge-server-ip` or `--client-location`. This flag is optional.
 - the `--ip_version` flag specifies the IP version you want to use to run the operation. The available values are `IPV4` or `IPV6`. It's set to `IPV4` by default. This flag is optional.
-- `REQUEST_HEADER` is a customized header for the `curl` request in the format `"header: value"`. This `--request-header` flag is optional and accepts multiple values.
+- `REQUEST_HEADER` is a customized header for the `curl` request in the format `"header: value"`. This `--request-header` flag is optional and accepts multiple values. You can also enter [Akamai Pragma headers](https://techdocs.akamai.com/edge-diagnostics/docs/pragma-headers).
 - the `--run-from-site-shield-map` flag uses the entered location or edge server IP to find its Site Shield map and runs the tool using the map. This flag is optional. 
 
 If you don't provide neither `--client-location` nor `--edge-server-ip`, Edge Diagnostics will run the `curl` command using a random location.
 
 **Examples**: 
-- `akamai diagnostics curl http://www.example.com --client-location bangalore-india --ip-version IPv4 --request-header "accept:text/html"`
-- `akamai diagnostics curl http://www.example.com --edge-server-ip 123.123.123.123 --ip-version IPv4 --request-header "accept:text/html"`
-- `akamai diagnostics curl http://www.example.com --edge-server-ip 123.123.123.123`
+- Commands:
+    - `akamai diagnostics curl http://www.example.com --client-location bangalore-india --ip-version IPv4 --request-header "accept:text/html"`
+    - `akamai diagnostics curl http://www.example.com --edge-server-ip 123.123.123.123 --ip-version IPv4 --request-header "accept:text/html"`
+    - `akamai diagnostics curl http://www.example.com --edge-server-ip 123.123.123.123`
+- [JSON file for an edge IP](#json-support):
+    ```
+    {
+      "url": "https://www.example.com",
+      "edgeIp": "123.123.123.123",
+      "ipVersion": "IPV4",
+      "requestHeaders": [
+        "Connection: keep-alive",
+        "Accept-Language: en-US"
+      ]
+    }
+    ```
+- [JSON file for a location](#json-support):
+    ```
+    {
+      "url": "https://www.example.com",
+      "edgeLocationId": "bangalore-india",
+      "ipVersion": "IPV4",
+      "requestHeaders": [
+        "Connection: keep-alive"
+      ]
+    }
+    ```
 
 **Expected outcome**: The response includes the `curl` response. For more details, you can check the [API response](https://techdocs.akamai.com/edge-diagnostics/reference/post-curl) description. 
 
@@ -442,7 +567,6 @@ If you don't provide neither `--client-location` nor `--edge-server-ip`, Edge Di
 The  `dig` command provides DNS details for a hostname or a domain name, or a GTM hostname. The results may help you diagnose issues with domain name resolutions. 
 You can run this operation either for a specific location or an edge IP.
 
->**_NOTE:_** Currently, Get domain details with dig doesn't support requests for origin hostnames. We're working on enabling these requests soon.
 
 **Command**: 
 - To run `dig` from a particular location: `dig --hostname HOSTNAME [--client-location CLIENT_LOCATION]  [--query-type QUERY_TYPE] [--gtm]`
@@ -459,27 +583,50 @@ Where:
 If you don't provide neither `--client-location` nor `--edge-server-ip`, Edge Diagnostics will run the `dig` command using a random location.
 
 **Examples**: 
-- `akamai diagnostics dig --hostname www.akamai.com --client-location bangalore-india`
-- `akamai diagnostics dig --hostname www.akamai.com --client-location bangalore-india --query-type NS`
-- `akamai diagnostics dig --hostname www.akamai.com --edge-server-ip 123.123.123.123 --query-type NS`
-- `diagnostics dig --hostname www.akamai.com --client-location bangalore-india --query-type NS --gtm`
+- Commands:
+    - `akamai diagnostics dig --hostname www.akamai.com --client-location bangalore-india`
+    - `akamai diagnostics dig --hostname www.akamai.com --client-location bangalore-india --query-type NS`
+    - `akamai diagnostics dig --hostname www.akamai.com --edge-server-ip 123.123.123.123 --query-type NS`
+    - `diagnostics dig --hostname www.akamai.com --client-location bangalore-india --query-type NS --gtm`
+- [JSON file for a client location](#json-support):
+    ```
+    {
+      "hostname": "www.akamai.com",
+      "queryType": "A",
+      "edgeLocationId": "tokyo-13-japan"
+    }
+    ```
+- [JSON file for an edge IP](#json-support):
+    ```
+    {
+      "hostname": "www.akamai.com",
+      "queryType": "A",
+      "edgeIP": "123.123.123.123"
+    }
+    ```
+- [JSON file for a GTM hostname](#json-support):
+    ```
+    {
+      "hostname": "www.akamai.com",
+      "queryType": "A",
+      "edgeIP": "123.123.123.123"
+      "isGtmHostname": true
+    }
+    ```
 
 **Expected outcome**: The response includes a standard `dig` response. For more details, you can check the [API response](https://techdocs.akamai.com/edge-diagnostics/reference/post-dig) description. 
 
 
 ## Test network connectivity with MTR
-The `mtr` command uses MTR to provide information about the packets loss and latency between an edge server IP address or location and a remote destination. You can run this operation also for a GTM hostname. 
-
->**_NOTE:_** Currently, Test network connectivity with MTR doesn't support requests for origin hostnames. We're working on enabling these requests soon.
-
+The `mtr` command provides information about the packets loss and latency between an edge server IP address or location and a remote destination. You can run this operation also for a GTM hostname. 
 
 **Command**: 
 - To run MTR between a location and a hostname: `mtr --source SOURCE_LOCATION --destination HOSTNAME [--ip-version IPv4|IPv6] [--port 80|443] [--packet-type TCP|ICMP]`
-- To run MTR between a location and an IP address: `mtr --source SOURCE_LOCATION --destination DESTINATION_IP [--ip-version IPv4|IPv6] [--port 80|443] [--packet-type TCP|ICMP]`
+- To run MTR between a location and an IP address: `mtr --source SOURCE_LOCATION --destination DESTINATION_IP [--packet-type TCP|ICMP]`
 - To run MTR between an edge server IP address and a hostname: `mtr --source SOURCE_IP --destination HOSTNAME [--ip-version IPv4|IPv6] [--port 80|443] [--packet-type TCP|ICMP]`
-- To run MTR between an edge server IP address and an IP: `mtr --source SOURCE_IP --destination DESTINATION_IP [--ip-version IPv4|IPv6] [--port 80|443] [--packet-type TCP|ICMP]`
-- To run MTR for a GTM hostname: `mtr --source SOURCE_IP --destination DESTINATION_IP --gtm-hostname GTM_HOSTNAME [--packet-type TCP|ICMP]`
-- To run MTR on a Site Shield hostname and a destination IP: `mtr --destination DESTINATION_IP --site-shield-hostname HOSTNAME [--source SOURCE_LOCATION|SOURCE_IP][--ip-version IPv4|IPv6] [--port 80|443] [--packet-type TCP|ICMP]`
+- To run MTR between an edge server IP address and an IP: `mtr --source SOURCE_IP --destination DESTINATION_IP [--packet-type TCP|ICMP]`
+- To run MTR for a GTM hostname: `mtr --source SOURCE_IP --destination DESTINATION_IP|HOSTNAME --gtm-hostname GTM_HOSTNAME [--packet-type TCP|ICMP]`
+- To run MTR on a Site Shield hostname and a destination IP: `mtr --destination DESTINATION_IP --site-shield-hostname HOSTNAME [--source SOURCE_LOCATION|SOURCE_IP] [--packet-type TCP|ICMP]`
 
 Where:
 
@@ -487,24 +634,36 @@ Where:
 - `HOSTNAME` is the MTR target hostname.
 - `SOURCE_IP` is the edge server IP address you want to run MTR from. You can use the edge server IP address value from the `answerSection` array in the [Get domain details with dig](#get-domain-details-with-dig) operation response. If you run MTR for a GTM hostname, use the Test IP value returned by the [List GTM hostnames](#list-gtm-hostnames) operation.
 - `DESTINATION_IP` is the MTR destination. If you run MTR for a GTM hostname, use the Target value returned by the [List GTM hostnames](#list-gtm-hostnames) operation.
-- the `--ip_version` flag specifies the IP version for MTR to use, either `IPV4` or `IPV6`. It's set to `IPV4` by default. Omit when running MTR for a GTM hostname.
-- the `--port` flag specifies the port number for MTR to use, either `80` or `443`. By default it's set to `80`. Omit when running MTR for a GTM hostname.
-- the `--packet_type` flag specifies the packet type for MTR to use, either `tcp` or `icmp`. By default it's set to `tcp`.
+- the `--ip_version` flag specifies the IP version for MTR to use, either `IPV4` or `IPV6`. It's set to `IPV4` by default. Provide it only for a standard `HOSTNAME` as the destination.
+- the `--port` flag specifies the port number for MTR to use, either `80` or `443`. By default it's set to `80`. Provide it only for a standard `HOSTNAME` as the destination.
+- the `--packet_type` flag specifies the packet type for MTR to use, either `TCP` or `ICMP`. By default it's set to `TCP`.
 - `GTM_HOSTNAME` is the GTM hostname you want to run MTR for. To get the list of GTM hostnames you have access to, run the [List GTM hostnames](#list-gtm-hostnames) operation.
 - the `--site-shield-hostname` flag uses the provided `HOSTNAME` to run the tool using the Site Shield map. 
 
 **Examples**: 
-- `akamai diagnostics mtr --source bangalore-india --destination www.akamai.com --ip-version IPv4 --port 443 --packet-type icmp`
-- `akamai diagnostics mtr --source bangalore-india --destination 121.121.121.121 --ip-version IPv4`
-- `akamai diagnostics mtr --source 123.123.123.123 --hostname www.akamai.com --ip-version IPv4 --port 443 --packet-type icmp`
-- `akamai diagnostics mtr --source 123.123.123.123  --destination 121.121.121.121`
-- `akamai diagnostics mtr --source 2.2.2.2 -–destination 1.1.1.1 --gtm-hostname www.akamai.com --packet-type icmp`
-
+- Commands:
+    - `akamai diagnostics mtr --source bangalore-india --destination www.akamai.com --ip-version IPv4 --port 443 --packet-type ICMP`
+    - `akamai diagnostics mtr --source bangalore-india --destination 121.121.121.121`
+    - `akamai diagnostics mtr --source 123.123.123.123 --hostname www.akamai.com --ip-version IPv4 --port 443 --packet-type ICMP`
+    - `akamai diagnostics mtr --source 2.2.2.2 -–destination 1.1.1.1 --gtm-hostname www.akamai.com --packet-type ICMP`
+- [JSON file for IPs as source and destination](#json-support):
+    ```
+    {
+      "sourceType": "EDGE_IP",
+      "destinationType": "IP",
+      "source": "1.1.1.1",
+      "destination": "3.3.3.3"
+      "packetType": "ICMP",
+      "resolveDns": true,
+      "showIps": true,
+      "showIpLocation": true
+    }
+    ```
 
 **Expected outcome**: The response includes a standard `mtr` response. For more details, you can check the [API response](https://techdocs.akamai.com/edge-diagnostics/reference/post-mtr) description. 
 
 ## Run the URL health check
-The `url-health-check` operation simultaneously runs [Translate an Akamaized URL](#translate-an-akamaized-url), [Request content with cURL](#request-content-with-curl), [Get domain details with dig](#get-domain-details-with-dig), [Test network connectivity with MTR](#test-network-connectivity-with-mtr), and [Get logs](#get-logs) operations for a URL.
+The `url-health-check` command simultaneously runs [Translate an Akamaized URL](#translate-an-akamaized-url), [Request content with cURL](#request-content-with-curl), [Get domain details with dig](#get-domain-details-with-dig), [Test network connectivity with MTR](#test-network-connectivity-with-mtr), and [Get logs](#get-logs) operations for a URL.
 
 **Command**: `url-health-check URL [--client-location LOCATION] [--edge-server-ip EDGE_SERVER_IP] [--ip-version IPv4|IPv6] [--port 80|443] [--packet-type TCP|ICMP] [--request-header REQUEST_HEADER...] [-q QUERY_TYPE] [--run-from-site-shield-map] [--logs] [--network-connectivity]`, where:
 
@@ -513,25 +672,44 @@ The `url-health-check` operation simultaneously runs [Translate an Akamaized URL
 - `EDGE_SERVER_IP` is the IP address of the edge server you want to serve traffic from. You can use the edge server IP address value from the `answerSection` array in the [Get domain details with dig](#get-domain-details-with-dig) operation response. 
 - the `--ip_version` flag specifies the IP version for the URL health check to use, either `IPV4` or `IPV6`. By default it's set to `IPv4`. 
 - the `--port` flag specifies the port number for the URL health check to use, either `80` and `443`. By default it's set to `80`.
-- the `--packet_type` flag specifies the packet type for the `mtr` to use, either `tcp` or `icmp`. By default it's set to `tcp`.
+- the `--packet_type` flag specifies the packet type for the `mtr` to use, either `TCP` or `ICMP`. By default it's set to `TCP`.
 - `REQUEST_HEADER` is a customized header for the `curl` request in the format `"header: value"`. The `--request-header` flag accepts multiple values.
 - `QUERY_TYPE` is the DNS record type you want to get. The available values are: `A` for IPv4 address record, `AAAA` for IPv6 address record, `SOA` for Start of Authority record, `CNAME` for Canonical Name record, `PTR` for Pointer record, `MX` for Mail Exchanger record, `NS` for Nameserver record, `TXT` for Text record, `SRV` for Service Location record, `CAA` for Certificate Authority Authorization record, and `ANY` for all associated records available. This flag is optional, set to `A` by default.
 - the `--logs` flag runs also the [Get logs](#get-logs) operation.
-- the `--network-connectivity` flag runs also the [Test network connectivity with MTR](#test-network-connectivity-with-mtr) operation.
+- the `--network-connectivity` flag runs the [Test network connectivity with MTR](#test-network-connectivity-with-mtr) operation.
 - the `--run-from-site-shield-map` flag uses the entered location or edge server IP to find its Site Shield map and runs the tool using the map.
 
 The `--edge-server-ip`, `--ip-version`, `--port`, `--packet-type`, `--request-header`, `--query-type`, `--logs`, and `--network-connectivity` flags are optional.
 
 **Examples**: 
-- `akamai diagnostics url-health-check http://www.example.com --client-location bangalore-india`
-- `akamai diagnostics url-health-check http://www.example.com --client-location bangalore-india --edge-server-ip 123.123.123.123 --port 80 --packet-type TCP --ip-version IPV4 --logs --network-connectivity  --request-header "X-Location: NGDT"`
-
+- Commands: 
+    - `akamai diagnostics url-health-check http://www.example.com --client-location bangalore-india`
+    - `akamai diagnostics url-health-check http://www.example.com --client-location bangalore-india --edge-server-ip 123.123.123.123 --port 80 --packet-type TCP --ip-version IPV4 --logs --network-connectivity  --request-header "X-Location: NGDT"`
+- [JSON file](#json-support):
+    ```
+    {
+      "url": "http://www.example.com",
+      "spoofEdgeIp": "1.1.1.1",
+      "edgeLocationId": "bangalore-india",
+      "ipVersion": "IPV4",
+      "port": 80,
+      "packetType": "TCP",
+      "queryType": "A",
+      "requestHeaders": [
+        "Pragma: akamai-x-cache-on"
+      ],
+      "viewsAllowed": [
+        "CONNECTIVITY",
+        "LOGS"
+      ]
+    }
+    ```
 
 **Expected outcome**: The response includes `grep`, `dig`, `curl`, `mtr`, and `translate-url` details for the URL in the JSON format. For more details, you can check the [API response](https://techdocs.akamai.com/edge-diagnostics/reference/post-url-health-check) description.
 
 
 ## Run the Connectivity problems scenario
-The `connectivity-problem` operation simultaneously runs [Request content with cURL](#request-content-with-curl), [Test network connectivity with MTR](#test-network-connectivity-with-mtr), and [Get logs](#get-logs) operations for a URL.
+The `connectivity-problem` command simultaneously runs [Request content with cURL](#request-content-with-curl), [Test network connectivity with MTR](#test-network-connectivity-with-mtr), and [Get logs](#get-logs) operations for a URL.
 
 **Command**: `connectivity-problem URL [--client-location LOCATION] [--edge-server-ip EDGE_SERVER_IP] [--client-ip CLIENT_IP] [--request-header REQUEST_HEADER...] [--ip-version IPv4|IPv6] [--port 80|443] [--packet-type TCP|ICMP] [--run-from-site-shield-map]`, where:
 
@@ -542,25 +720,41 @@ The `connectivity-problem` operation simultaneously runs [Request content with c
 - `REQUEST_HEADER` is a customized header for the `curl` request in the format `"header: value"`. The `--request-header` flag accepts multiple values.
 - the `--ip_version` flag specifies the IP version for the Connectivity problems scenario to use, either `IPV4` or `IPV6`. By default it's set to `IPv4`. 
 - the `--port` flag specifies the port number for the Connectivity problems scenario to use, either `80` and `443`. By default it's set to `80`.
-- the `--packet_type` flag specifies the packet type for the `mtr` to use, either `tcp` or `icmp`. By default it's set to `tcp`.
+- the `--packet_type` flag specifies the packet type for MTR to use, either `TCP` or `ICMP`. By default it's set to `TCP`.
 - the `--run-from-site-shield-map` flag uses the entered location or edge server IP to find its Site Shield map and runs the tool using the map.
 
 The `--edge-server-ip`, `--client-ip`, `--ip-version`, `--port`, `--packet-type`, `--request-header`, and `--run-from-site-shield-map` flags are optional.
 
 
 **Examples**: 
-- `akamai diagnostics connectivity-problem http://www.example.com --client-location bangalore-india`
-- `akamai diagnostics connectivity-problem http://www.example.com --client-location bangalore-india --edge-server-ip 123.123.123.123 --client-ip 123.123.123.123 --request-header accept:text/html --port 80 --packet-type TCP --ip-version IPV4`
+- Commands: 
+    - `akamai diagnostics connectivity-problem http://www.example.com --client-location bangalore-india`
+    - `akamai diagnostics connectivity-problem http://www.example.com --client-location bangalore-india --edge-server-ip 123.123.123.123 --client-ip 123.123.123.122 --request-header accept:text/html --port 80 --packet-type TCP --ip-version IPV4`
+- [JSON file](#json-support):
+    ```
+    {
+      "url": "http://www.example.com",
+      "edgeLocationId": "bangalore-india",
+      "spoofEdgeIp": "123.123.123.123",
+      "clientIp": "123.123.123.122",
+      "ipVersion": "IPV4",
+      "port": 80,
+      "packetType": "TCP",
+      "requestHeaders": [
+        "Pragma: akamai-x-cache-on"
+      ]
+    }
+    ```
 
 **Expected outcome**: The response includes `grep`, `curl`, and `mtr` details for the URL in the JSON format. For more details, you can check the [API response](https://techdocs.akamai.com/edge-diagnostics/reference/post-connectivity-problems) description.
 
 ## Run the Content problems scenario 
-The `content-problem` operation simultaneously runs [Request content with cURL](#request-content-with-curl) and [Get logs](#get-logs) operations for a URL.
+The `content-problem` command simultaneously runs [Request content with cURL](#request-content-with-curl) and [Get logs](#get-logs) operations for a URL.
 
 **Command**: `content-problem URL [--client-location LOCATION] [--edge-server-ip EDGE_SERVER_IP] [--request-header REQUEST_HEADER...] [--ip-version IP_VERSION] [--run-from-site-shield-map]`, where:
 
 - `URL` is the fully qualified URL you want to run the Content problems scenario for.
-- `LOCATION` is a unique identifier for an edge server location closest to your users. To get this value, run the [List edge server locations](#list-edge-server-locations) operation first. This flag is optional.
+- `LOCATION` is a unique identifier for an edge server location closest to your users. To get this value, run the [List edge server locations](#list-edge-server-locations) operation first. This flag is optional.  
 - `EDGE_SERVER_IP` is the IP address of the edge server you want to serve traffic from. You can use the edge server IP address value from the `answerSection` array in the [Get domain details with dig](#get-domain-details-with-dig) operation response.
 - `REQUEST_HEADER` is a customized header for the `curl` request in the format `"header: value"`. The `--request-header` flag accepts multiple values.
 - the `--ip_version` flag specifies the IP version for the problem scenario to use, either `IPV4` or `IPV6`. By default it's set to `IPv4`. 
@@ -570,8 +764,21 @@ The `--edge-server-ip`, `--request-header`, and `--run-from-site-shield-map` fla
 
 
 **Examples**: 
-- `akamai diagnostics content-problem http://www.example.com --client-location bangalore-india --run-from-site-shield-map`
-- `akamai diagnostics content-problem http://www.example.com --client-location bangalore-india --edge-ip 123.123.123.123 --request-header accept:text/html --ip-version IPV4`
+- Commands:
+    - `akamai diagnostics content-problem http://www.example.com --client-location bangalore-india --run-from-site-shield-map`
+    - `akamai diagnostics content-problem http://www.example.com --client-location bangalore-india --edge-ip 123.123.123.123 --request-header accept:text/html --ip-version IPV4`
+- [JSON file](#json-support):
+    ```
+    {
+        "url": "http://www.example.com",
+        "edgeLocationId": "bangalore-india",
+        "spoofEdgeIp": "1.1.1.1",
+        "ipVersion": "IPV4",
+        "requestHeaders": [
+          "Pragma: akamai-x-cache-on"
+        ]
+      }
+    ```
 
 **Expected outcome**: The response includes `grep` and `curl` details for the URL in the JSON format. For more details, you can check the [API response](https://techdocs.akamai.com/edge-diagnostics/reference/post-content-problems) description.
 
@@ -619,8 +826,8 @@ When you complete an operation, the CLI generates one of these exit codes:
 - `1` (Configuration error) - Indicates an error while loading the CLI.
 - `2` - Indicates an error related to command arguments, missing flags, or mismatch exception.
 - `3` - Indicates a parsing error in API request and response.
-- `100-199` - Indicates a 4xx HTTP error. The exit code equals 4xx – 300.
-- `200-255` : Indicates a 5xx HTTP error. The exit code equals 5xx – 300.
+- `100-199` - Indicates a 4xx HTTP error. To get the HTTP code value add 300 to the returned exit code. 
+- `200-255` - Indicates a 5xx HTTP error. To get the HTTP code value add 300 to the returned exit code. 
 
 # Windows 10 2018 version
 If you're using Windows 10, 2018 version and you're having problems running the Edge Diagnostics 

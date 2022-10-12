@@ -2,52 +2,52 @@
   "akamai": {
     "fallback": "Message is not configured for the path.",
     "global": {
-      "400": "Incorrect request. Check the input and try again.",
-      "403": "You don't have access to this resource.",
-      "500": "An internal server error occurred. Try again later.",
+      "400": "Bad request. Check your input and try again.",
+      "403": "Access forbidden. You don't have access to this resource. Contact your account administrator.",
+      "500": "Internal server error. Try again later.",
       "502": "Bad gateway. Try again later.",
-      "503": "Service is unavailable. Try again later.",
-      "504": "The request has timed out. Try again later.",
-      "initEdgeRc": "Check if your .edgerc file and section are specified correctly and contain valid credentials.",
+      "503": "Service unavailable. Try again later.",
+      "504": "Gateway timeout error. Try again later.",
+      "initEdgeRc": "Check if your .edgerc file and its section are specified correctly and contain valid credentials.",
       "requestParsingError": "Error parsing API request body.",
       "responseParsingError": "Error parsing API response.",
-      "fieldsNotRequired": "argument/flag inputs need not be provided with stdin",
+      "fieldsNotRequired": "Arguments' and flags' values don't need to be provided with stdin.",
       "missingArgs": "Requires %d arguments, %d arguments passed."
     },
     "diagnostics": {
-      "short": "Diagnostics CLI.",
-      "long": "\nThe Diagnostic CLI allows you to diagnose server, ESI, DNS, and network issues Akamai customers experience when delivering content to their users.",
-      "edgerc": "The full path to the .edgerc file",
-      "section": "A section of the .edgerc file with credentials to use.",
+      "short": "Diagnostics CLI",
+      "long": "\nThe Diagnostics CLI allows you to diagnose server, ESI, DNS, and network issues Akamai customers experience when delivering content to their users.",
+      "edgerc": "Full path to the .edgerc file",
+      "section": "Section of the .edgerc file with credentials to use.",
       "accountKey": "Account ID to switch to when performing the commands.",
-      "forceColor": "Force color to non-TTY output.",
-      "json": "Get JSON output.",
+      "forceColor": "Forces color to non-TTY output.",
+      "json": "Gets JSON output.",
 
       "verifyIp" : {
-        "short": "Verifies whether the specified IP address is an edge server IP.",
-        "long": "\nVerifies whether the specified IP address is part of the Akamai network.",
-        "spinnerMessage": "Verifying IP address",
-        "defaultError": "Failed to verify the IP address.",
-        "ipAddress": "IP address you want to get the data for.",
+        "short": "Verifies whether IP addresses are edge server IPs.",
+        "long": "\nVerifies whether IP addresses are part of the Akamai network. You can enter up to 10 IP addresses.",
+        "spinnerMessage": "Verifying IP addresses",
+        "defaultError": "Failed to verify IP addresses",
+        "ipAddress": "Up to 10 IP addresses you want to get the data for.",
         "arg":{
           "invalid":{
-            "ipAddress": "Invalid IP address. Verify the input and try again."
+            "ipAddress": "At lease one IP address is invalid. Verify the input and try again."
           }
         },
-        "failedIps": "Failed to get results for below IP's"
+        "failedIps": "Failed to get results for IPs:"
       },
       "locateIp" : {
-        "short": "Provides information about an edge IP's network and its location.",
-        "long": "\nProvides the geolocation data of a network for an edge server IP and its network details.",
+        "short": "Provides information about IP addresses' network and their location.",
+        "long": "\nProvides the geolocation data of IP addresses' network and their network details. You can enter up to 10 IPs.",
         "spinnerMessage": "Getting geolocation data",
         "defaultError": "Failed to get the geolocation data.",
-        "ipAddress": "IP address you want to get the data for.",
+        "ipAddress": "Up to 10 IP addresses you want to get the data for.",
         "arg":{
           "invalid":{
-            "ipAddress": "Invalid IP address. Verify the input and try again."
+            "ipAddress": "At lease one IP address is invalid. Verify the input and try again."
           }
         },
-        "failedIps": "Failed to get results for below IP's"
+        "failedIps": "Failed to get results for IPs:"
       },
       "verifyLocateIp" : {
         "short": "Verifies if an IP is an edge server IP and gets geolocation data for its network.",
@@ -67,11 +67,11 @@
         "spinnerMessage": "Getting cURL results",
         "defaultError": "Failed to get cURL results.",
         "url": "URL you want to get the data for.",
-        "clientLocation": "Optional. Unique identifier for an edge server location closest to your users. To get the value, run the 'edge-locations' command first. You need to provide either this flag or '--edge-server-ip'.",
-        "edgeServerIp": "Optional. IP of an edge server to use to run the command. If you don't know if an IP is the edge IP, run the 'verify-ip' command. You need to provide either this flag or '--client-location'.",
+        "clientLocation": "Optional. Unique identifier for an edge server location closest to your users. To get the value, run the 'edge-locations' command. Provide either this flag or '--edge-server-ip'.",
+        "edgeServerIp": "Optional. IP of an edge server to use to run the command. If you don't know if an IP is the edge IP, run the 'verify-ip' command. Provide either this flag or '--client-location'.",
         "ipVersion" : "Optional. IP version to use to run the command, either 'IPV4' or 'IPV6'. By default set to 'IPV4'.",
         "requestHeader":"Optional. Customized headers for the cURL request in the format 'header: value'. You can provide multiple values.",
-        "runFromSiteShieldMap": "Optional. Run from site shield.",
+        "runFromSiteShieldMap": "Optional. Runs the command from Site Shield.",
         "arg":{
           "invalid":{
             "url": "Invalid URL value. Verify the input and try again."
@@ -87,14 +87,14 @@
       },
       "dig" : {
         "short": "Uses the dig command to provide DNS details for the location of an edge server, a hostname or a domain name, or a GTM hostname.",
-        "long": "Uses the dig command to provide DNS details for the location of an edge server, a hostname or a domain name, or a GTM hostname. The results may help you diagnose issues with domain name resolutions. You can run this command either for a specific location or an edge IP. ",
+        "long": "Uses the dig command to provide DNS details for the location of an edge server, a hostname or a domain name, or a GTM hostname. The results may help you diagnose issues with domain name resolutions. You can run this command either for a specific location or an edge IP.",
         "spinnerMessage": "Getting dig results",
         "defaultError": "Failed to get dig results.",
-        "hostname": "Hostname or a domain name you want to get the data for. ",
+        "hostname": "Hostname, a domain name, or a GTM hostname you want to get the data for. To get available GTM hostnames, run the 'gtm-hostnames' command.",
         "clientLocation":"Optional. Unique identifier for an edge server location closest to your users. To get the value, run the 'edge-locations' command first. You need to provide either this flag or '--edge-server-ip'.",
         "edgeServerIp": "Optional. IP of an edge server you want to run the dig command from. If you don't know if an IP is the edge IP, run the 'verify-ip' command. You need to provide either this flag or '--client-location'.",
         "queryType":"Optional. DNS record type you want to get. Possible values are: 'A', 'AAAA', 'SOA', 'CNAME', 'PTR', 'MX', 'NS', 'TXT', 'SRV', 'CAA', and 'ANY'. By default set to 'A'.",
-        "gtm":"Optional. Flag to specify that the provided hostname is a GTM hostname.",
+        "gtm":"Optional. Specifies that the provided hostname is a GTM hostname.",
         "flag":{
           "missing":{
             "hostname": "Missing the required '--hostname' flag. Add the flag and try again."
@@ -104,23 +104,23 @@
             "edgeServerIp": "Invalid edge server IP value. Verify the input and try again. To verify if an IP is an edge server IP, run the 'verify-ip' command.",
             "clientLocation": "Invalid client location value. Verify the input and try again. To get the value, run the 'edge-locations' command.",
             "queryType": "Invalid query type value. Available values are: 'A', 'AAAA', 'SOA', 'CNAME', 'PTR', 'MX', 'NS', 'TXT', 'SRV', 'CAA', and 'ANY'. Verify the input and try again.",
-            "isGtmHostName":"Invalid --gtm flag value. Verify the input and try again.",
+            "isGtmHostName":"Invalid '--gtm' flag value. Verify the input and try again.",
             "exclusive": "Invalid combination of flags. You need to provide only one of these flags, either '--client-location' and '--edge-server-ip'."
           }
         }
       },
       "estats": {
-        "short": "Returns HTTP status codes distribution statistics from delivering a URL or CP code based on the 9-second traffic sample from the last 2 minutes. ",
-        "long": "\nProvides statistics of errors happening on a URL or CP code’s traffic. The tool returns also logs, for the edge server response to a client and the edge server forward request to an origin server, and error details. Errors' data are based on the 9-second traffic sample from the last 2 minutes.",
-        "spinnerMessage": "Getting statistics and details ",
+        "short": "Returns HTTP status codes distribution statistics from delivering a URL or CP code based on the 9-second traffic sample from the last 2 minutes.",
+        "long": "\nProvides statistics of errors happening on a URL or CP code’s traffic. The command returns also logs for the edge server response to a client and the edge server forward request to an origin server and error details. Errors' data are based on the 9-second traffic sample from the last 2 minutes.",
+        "spinnerMessage": "Getting statistics and details",
         "defaultError": "Failed to get error statistics and details.",
-        "url": "URL you want to get the data for. You need to provide either this flag or '--cp-code'.",
+        "url": "Fully qualified URL you want to get the data for. You need to provide either this flag or '--cp-code'.",
         "cpCode": "CP code you want to get the data for. You need to provide either this flag or '--url'.",
-        "logs": "Optional. Flag to include error logs in the response. ",
-        "enhancedTls": "Optional. Flag to get error statistics for the enhanced Tls delivery type. Use this for resources delivered using the HTTPS traffic with Enhanced TLS hostname. If neither this or '--standard-tls' flag is not added, Edge Diagnostics checks on its own the type of delivery used by your resource and returns data for it. If your resource uses both delivery types, then Edge Diagnostics returns data for the type which got all data collected faster. If you choose the delivery type not used by your resource, then the results are empty.",
-        "standardTls": "Optional. Flag to get error statistics for the standard Tls delivery type. Use this for resources delivered using the HTTP traffic with Standard TLS hostname. If neither this or '--enhanced-tls' flag is not added, Edge Diagnostics checks on its own the type of delivery used by your resource and returns data for it. If your resource uses both delivery types, then Edge Diagnostics returns data for the type which got all data collected faster. If you choose the delivery type not used by your resource, then the results are empty.",
-        "edgeErrors":"Error type of the request's execution, select this for 'EDGE_ERRORS'.",
-        "originErrors":"Error type of the request's execution, select this for 'ORIGIN_ERRORS'.",
+        "logs": "Optional. Includes error logs in the response.",
+        "enhancedTls": "Optional. Gets error statistics for the Enhanced TLS delivery type. If neither this nor the '--standard-tls' flag is added, Edge Diagnostics checks on its own the type of delivery used by your resource and returns data for it. If your resource uses both delivery types, then Edge Diagnostics returns data for the type which got all data collected faster. If you choose the delivery type not used by your resource, then the results are empty. To verify the delivery type of your resource, you can use the Edge hostnames application in Control Center.",
+        "standardTls": "Optional. Gets error statistics for the Standard TLS delivery type. If neither this nor the '--enhanced-tls' flag is added, Edge Diagnostics checks on its own the type of delivery used by your resource and returns data for it. If your resource uses both delivery types, then Edge Diagnostics returns data for the type which got all data collected faster. If you choose the delivery type not used by your resource, then the results are empty. To verify the delivery type of your resource, you can use the Edge hostnames application in Control Center.",
+        "edgeErrors":"Optional. Requests details for errors from client to edge server. Without this or the '--origin-error' flag, Edge Diagnostics returns data for both directions, from client to edge server and from edge to origin server.",
+        "originErrors":"Optional. Requests details for errors from edge to origin server. Without this or the '--edge-error' flag, Edge Diagnostics returns data for both directions, from client to edge server and from edge to origin server.",
         "flag": {
           "missing": {
             "any": "Missing one of the required flags, either '--url' or '--cp-code'. Add the flag and try again."
@@ -128,21 +128,21 @@
           "invalid": {
             "url": "Invalid URL value. Verify the input and try again.",
             "exclusive": "Invalid combination of flags. You need to provide only one of these flags, either '--url' or '--cp-code'.",
-            "exclusiveDelivery": "Invalid combination of flags. You need to provide only one of these flags, either '--enhanced-tls' or '--standard-tls'."
+            "exclusiveDelivery": "Invalid combination of flags. Provide only one of these flags, either '--enhanced-tls' or '--standard-tls'."
           }
         }
       },
       "userDiagnostics": {
-        "short": "Collects and checks user diagnostic data. ",
+        "short": "Collects and checks user diagnostic data.",
         "long": "\nYou can generate a diagnostic link to send to users experiencing similar issues with a specific domain, list generated links, and view the collected data for a specific link. You can also export results.",
         "create": {
-          "short": "Generates a diagnostic link for you to share with users of a particular URL or IP acceleration hostname experiencing similar issues. ",
+          "short": "Generates a diagnostic link for you to share with users of a particular URL or IP acceleration hostname experiencing similar issues.",
           "long": "\nGenerates a diagnostic link for you to share with users of a particular URL or IP acceleration hostname experiencing similar issues. After a user clicks the link, the tool gathers necessary diagnostic data and asks the user to submit it. Once submitted, you can check the collected data with the 'user-diagnostics get' command. Each link is valid for 7 days of 50 submissions.",
           "spinnerMessage": "Generating diagnostic link",
           "defaultError": "Failed to generate the diagnostic link.",
-          "url": "URL of which the users are experiencing issues.",
-          "ipaHostname": "IP acceleration  hostname of which the users are experiencing issues. To list available hostnames, run the 'ipa-hostnames' command.",
-          "notes": "Optional. Notes about the link to be generated or issues users of the URL or IPA are experiencing.",
+          "url": "URL of which the users are experiencing issues. You need to provide either this flag or '--ipa-hostname'.",
+          "ipaHostname": "IP acceleration hostname of which the users are experiencing issues. You need to provide either this flag or '--url'. To list available IPA hostnames, run the 'ipa-hostnames' command.",
+          "notes": "Optional. Notes about the group or issues experienced by group's users.",
           "flag":{
             "missing":{
               "url": "Missing the required '--url' flag. Add the flag and try again.",
@@ -160,7 +160,7 @@
           "spinnerMessage": "Getting diagnostic links",
           "defaultError": "Failed to get the list of diagnostic links.",
           "url": "Optional. Specific URL to filter the list for.",
-          "active": "Optional. Flag to filter the list for only active links. Active links can be further shared with users to collect more diagnostic data. Each link is valid for 7 days of 50 submissions.",
+          "active": "Optional. Filters the list for only active links. Active links can be further shared with users to collect more diagnostic data. Each link is valid for 7 days or 50 submissions.",
           "user": "Optional. Username who created the diagnostic link to filter the list for.",
           "flag":{
             "missing":{
@@ -175,10 +175,10 @@
           "long": "\nLists users' diagnostic data submitted using a specific diagnostic link.",
           "spinnerMessage": "Getting collected diagnostic data",
           "defaultError": "Failed to get collected diagnostic data.",
-          "linkId": "ID of the generated diagnostic link. ",
-          "mtr": "Optional. Flag to include MTR output in the response.",
-          "dig": "Optional. Flag to include dig output in the response.",
-          "curl": "Optional. Flag to include cURL output in the response."
+          "linkId": "ID of the generated diagnostic link. To get this value, run the 'user-diagnostics list' command.",
+          "mtr": "Optional. Includes MTR output in the response.",
+          "dig": "Optional. Includes dig output in the response.",
+          "curl": "Optional. Includes cURL output in the response."
         }
       },
       "translateUrl" : {
@@ -189,25 +189,25 @@
         "url": "Akamaized URL you want to get the details for.",
         "arg":{
           "invalid": {
-            "url": "Invalid URL value. Verify the input and try again."
+            "url": "Invalid ARL value. Verify the input and try again."
           }
         }
       },
       "urlHealthCheck" : {
-        "short": "URL health check retrieves data necessary to debug a URL or ARL. The data include DNS information, HTTP response, response headers, edge logs, and MTR response. ",
-        "long": "URL health check retrieves data necessary to debug a URL or ARL. It simultaneously runs the 'grep', 'dig', 'mtr', and 'curl' commands. The data include DNS information, HTTP response, response headers, edge logs, and MTR response. ",
+        "short": "Retrieves data necessary to troubleshoot issues with a URL or ARL.",
+        "long": "The URL health check scenario retrieves data necessary to debug a URL or ARL. It simultaneously runs the 'grep', 'dig', 'mtr', and 'curl' commands. The data include DNS information, HTTP response, response headers, edge logs, and MTR response.",
         "spinnerMessage": "Running URL health check",
         "defaultError": "Failed to run the URL health check.",
         "clientLocation":"Optional. Unique identifier for an edge server location closest to your users. To get the value, run the 'edge-locations' command first.",
         "edgeServerIp": "Optional. IP of an edge server you want to run the URL health check from. You can use the edge server IP value from the 'answerSection' array in the 'dig' command response.",
         "port": "Optional. Port number for the URL health check to use, either '80' and '443'. By default set to '80'. Provide only for commands with the '--network-connectivity' flag.",
-        "packetType": "Optional. Packet type for MTR to use, either 'tcp' or 'icmp'. By default set to 'tcp'. Provide only for commands with the '--network-connectivity' flag.",
+        "packetType": "Optional. Packet type for MTR to use, either 'TCP' or 'ICMP'. By default set to 'TCP'. Provide only for commands with the '--network-connectivity' flag.",
         "ipVersion": "Optional. IP version for the cURL to use, either 'IPV4' or 'IPV6'. By default set to 'IPv4'.",
         "queryType": "Optional. DNS record type you want to get. Possible values are: 'A', 'AAAA', 'SOA', 'CNAME', 'PTR', 'MX', 'NS', 'TXT', 'SRV', 'CAA', and 'ANY'. By default set to 'A'.",
         "requestHeader": "Optional. Customized headers for the cURL request in the format 'header: value'. You can provide multiple values.",
-        "logs": "Optional. Flag to include results of the 'grep' command.",
-        "networkConnectivity": "Optional. Flag to include results of the 'mtr' command.",
-        "runFromSiteShieldMap": "Optional. Run from site shield.",
+        "logs": "Optional. Includes results of the 'grep' command.",
+        "networkConnectivity": "Optional. Includes results of the 'mtr' command.",
+        "runFromSiteShieldMap": "Optional. Runs the command from Site Shield.",
         "arg": {
           "invalid": {
             "url":"Invalid URL value. Verify the input and try again."
@@ -219,7 +219,7 @@
           },
           "invalid":{
             "edgeServerIp": "Invalid edge server IP value. Verify the input and try again. To verify if an IP is an edge server IP, run the 'verify-ip' command.",
-            "packetType": "Invalid packet type value. Available values are 'tcp' or 'icmp'. Verify the input and try again.",
+            "packetType": "Invalid packet type value. Available values are 'TCP' or 'ICMP'. Verify the input and try again.",
             "ipVersion": "Invalid IP version value. Available values are 'IPV4' or 'IPV6'. Verify the input and try again.",
             "edgeLocation": "Invalid edge server location value. Verify the input and try again. To get the value, run the 'edge-locations' command.",
             "queryType": "Invalid query type value. Available values are: 'A', 'AAAA', 'SOA', 'CNAME', 'PTR', 'MX', 'NS', 'TXT', 'SRV', 'CAA', and 'ANY'. Verify the input and try again.",
@@ -228,11 +228,12 @@
         }
       },
       "translateErrorString" : {
-        "short": "Returns details, including logs, about an error with a specific reference code. All reference codes are valid for 48 hours. ",
-        "long": "\nReturns details, including logs, about an error with a specific reference code. All reference codes are valid for 48 hours. Provide only the alphanumerical part of the error. For example, for 'Reference #9.6f64d440.1318965461.2f2b078', enter '9.6f64d440.1318965461.2f2b078'.",
+        "short": "Returns details, including logs, about an error with a specific reference code.",
+        "long": "\nReturns details, including logs, about an error with a specific reference code. You can get data from either the last 6 or 24 hours depending on the server and traffic conditions. Provide only the alphanumerical part of the error. For example, for 'Reference #9.6f64d440.1318965461.2f2b078', enter '9.6f64d440.1318965461.2f2b078'.",
         "spinnerMessage": "Getting error details",
         "defaultError": "Failed to get error details.",
-        "ipAddress": "IP address you want to get the data for."
+        "errorString": "Alphanumeric part of the error reference code you want to get the data for.",
+        "traceForwardLogs": "Optional. Returns logs from all edge servers serving the reference code."
         }
       ,
       "edgeLocations": {
@@ -249,38 +250,38 @@
         "defaultError": "Failed to get IPA hostnames."
       },
       "gtmHostnames": {
-        "short": "Lists active GTM hostnames and, optionally, their test and target IPs.",
-        "long": "\nLists active GTM hostnames and, optionally, their test and target IPs. You can use the results to run 'mtr' and 'dig' commands for a GTM hostname.",
+        "short": "Lists active GTM hostnames and test and target IPs for specific hostnames",
+        "long": "\nLists active GTM hostnames and test and target IPs for specific hostnames. You can use the results to run 'mtr' and 'dig' commands for a GTM hostname.",
         "spinnerMessage": "Getting GTM hostnames",
-        "spinnerMessageTestTargetIp": "Getting test and target IPs",
+        "spinnerMessageTestTargetIp": "Getting details",
         "defaultError": "Failed to get GTM hostnames.",
         "defaultErrorTestTargetIp": "Failed to get test and target IPs.",
-        "testTargetIp": "Optional. Flag to get test and targets IPs for GTM hostnames. Test and target IPs are required to run the 'mtr' command for a GTM hostname."
+        "testTargetIp": "Optional. GTM hostname you want to get test and target IPs for. Test and target IPs or hostnames are required to run the 'mtr' command for a GTM hostname."
       },
       "mtr" : {
-        "short": "Uses MTR to provide information about the packets loss and latency between and edge server IP or location and a remote destination. ",
-        "long": "\nUses MTR to provide information about the packets loss and latency between and edge server IP or location and a remote destination. To run this command for a GTM hostname, provide 'source' (test IP), 'destination' (target IP), and 'gtmHostname'. ",
+        "short": "Uses MTR to provide information about the packets loss and latency between an edge server IP or location and a remote destination.",
+        "long": "\nUses MTR to provide information about the packets loss and latency between an edge server IP or location and a remote destination. To run this command for a GTM hostname, provide 'source' (test IP), 'destination' (target IP), and 'gtmHostname'. To run this command for a Site Shield hostname, provide 'site-shield-hostname', 'destination' and, optionally, 'source'.",
         "spinnerMessage": "Getting MTR results",
         "defaultError": "Failed to get MTR results.",
         "source": "MTR source, either an edge server IP or edge server location ID. For a GTM hostname, enter a hostname's test IP returned by the 'gtm-hostnames' command. For a Site Shield hostname, this value is optional.",
-        "destination": "MTR destination, either a domain name or an IP address. For a GTM hostname, enter a hostname's target IP returned by the 'gtm-hostnames' command. For a Site Shield hostname as a source, enter a target IP address.",
-        "packetType": "Optional. Packet type for MTR to use, either 'tcp' or 'icmp'. By default set to 'tcp'.",
-        "port": "Optional. Port number for MTR to use, either '80' and '443'. By default set to '80'. Omit when running MTR for a GTM hostname.",
+        "destination": "MTR destination, either a domain name or an IP address. For a GTM hostname, enter a hostname's target IP returned by the 'gtm-hostnames' command. For a Site Shield hostname as the source, enter a target IP address.",
+        "packetType": "Optional. Packet type for MTR to use, either 'TCP' or 'ICMP'. By default set to 'TCP'.",
+        "port": "Optional. Port number for MTR to use, either '80' and '443'. By default set to '80'. Provide it only for destination set to a domain name.",
         "gtmHostname": "Optional. GTM hostname to use as the MTR source. Enter the GTM hostname value returned by the 'gtm-hostnames' command.",
-        "ipVersion": "Optional. IP version for the MTR to use, either 'IPV4' or 'IPV6'. By default set to 'IPv4'. Omit when running MTR for a GTM hostname.",
+        "ipVersion": "Optional. IP version for the MTR to use, either 'IPV4' or 'IPV6'. By default set to 'IPV4'. Provide it only for destination set to a domain name.",
         "siteShieldHostname": "Optional. Site Shield hostname to use as the MTR source.",
         "flag":{
           "missing": {
-            "source": "Missing source data. Provide the '--source' flag.",
-            "destination": "Missing destination data. Provide the '--destination' flag."
+            "source": "Missing source data. Provide the '--source' flag and try again.",
+            "destination": "Missing destination data. Provide the '--destination' flag and try again."
           },
           "invalid": {
             "any": "Invalid combination of flags. Refer to the usage and examples and try again.",
             "port": "Invalid port value. Available values are '80' or '443'. Verify the input and try again.",
-            "packetType": "Invalid packet type value. Available values are 'tcp' or 'icmp'. Verify the input and try again.",
+            "packetType": "Invalid packet type value. Available values are 'TCP' or 'ICMP'. Verify the input and try again.",
             "ipVersion": "Invalid IP version value. Available values are 'IPV4' or 'IPV6'. Verify the input and try again.",
-            "gtmScenario": "Invalid input for a GTM hostname. Provide '--source', '--destination', and '--gtm-hostname'. Where '--source' is the test target, '--destination' the target IP, and '--gtm-hostname' a valid GTM hostname. To get these values run the 'gtm-hostnames' command.",
-            "destination": "Invalid input for Destination. Destination should be a valid IP when siteShieldHostname is entered. Verify the input and try again."
+            "gtmScenario": "Invalid input for a GTM hostname. Provide '--source', '--destination', and '--gtm-hostname'. Where '--source' is the test IP, '--destination' the target IP or hostname, and '--gtm-hostname' a valid GTM hostname. To get these values run the 'gtm-hostnames' command.",
+            "destination": "Invalid destination input. For Site Shield hostname, the destination is a valid IP. Verify the input and try again."
           },
           "redundant": {
             "ipVersion": "Redundant '--ipVersion' flag. Remove it and try again.",
@@ -289,19 +290,19 @@
         }
       },
       "grep" : {
-        "short": "Uses the GREP command to return logs for edge server IPs from either the last 6 or 24 hours depending on the server and traffic conditions.",
-        "long": "\nUses the GREP command to return logs for edge server IPs from either the last 6 or 24 hours depending on the server and traffic conditions. Logs provide low-level details on how each request was handled, which you can use to troubleshoot caching and performance issues and to ensure the correct set of Akamai features was applied to the traffic.",
+        "short": "Uses the GREP command to return logs for an edge server IP from either the last 6 or 24 hours depending on the server and traffic conditions.",
+        "long": "\nUses the GREP command to return logs for an edge server IP from either the last 6 or 24 hours depending on the server and traffic conditions. Logs provide low-level details on how each request was handled, which you can use to troubleshoot caching and performance issues and to ensure the correct set of Akamai features was applied to the traffic.",
         "spinnerMessage": "Getting logs",
         "defaultError": "Failed to get logs.",
-        "hostname": "Host header to filter the logs for. Provide either this flag or '--cp-code'.",
-        "cpCode":"CP code to filter the logs for. Provide either this flag or '--hostname'.",
+        "hostname": "Hostname you want to get the logs for. Provide either this flag or '--cp-code'.",
+        "cpCode":"CP code you want to get the logs for. Provide either this flag or '--hostname'.",
         "clientIp":"Optional. Client IP to filters the logs for. You can provide multiple values.",
         "userAgent":"Optional. User agent to filters the logs for. You can provide multiple values.",
-        "httpStatusCode":"Optional. HTTP status code to filters the logs for. You can provide multiple values.",
-        "errorStatusCodes":"Optional. Error HTTP status codes (all excluding 2xx) to filters the logs for. You can provide multiple values.",
+        "httpStatusCode":"Optional. HTTP status code to filters the logs for. You can provide multiple values. Provide either this flag or '--error-status-codes'.",
+        "errorStatusCodes":"Optional. Error HTTP status codes, all excluding 2xx, to filters the logs for. You can provide multiple values. Provide either this flag or '--http-status-code'.",
         "arl":"Optional. Akamaized URL to filters the logs for. You can provide multiple values.",
-        "r": "Flag to filter the logs for requests from client’s machine to an edge server. Used by default. You can combine it with the '--f' flag.",
-        "f": "Flag to filter the logs for requests between edge and origin servers. You can combine it with the '--r' flag.",
+        "r": "Optional. Filters the logs for requests from client’s machine to an edge server. Used by default. You can combine it with the '--f' flag.",
+        "f": "Optional. Filters the logs for requests between edge and origin servers. You can combine it with the '--r' flag.",
         "arg":{
           "invalid":{
             "edgeServerIp": "Invalid edge server IP value. Verify the input and try again. To verify if an IP is an edge server IP, run the 'verify-ip' command."
@@ -313,26 +314,26 @@
           },
           "invalid":{
             "exclusive":"Invalid combination of flags. You need to provide only one of these flags, either '--cp-code' and '--hostname'.",
-            "hostHeader":"Invalid host header. Verify the input and try again.",
+            "hostname":"Invalid hostname. Verify the input and try again.",
             "clientIp": "Invalid client IP. Verify the input and try again.",
-            "time": "One of the values is invalid, either 'start-time' or 'end-time'. Verify the input and try again.",
+            "time": "One of the values is invalid, either start or end time. Make sure the input follows the ISO 8601 format and try again.",
             "exclusiveHttpStatusCode": "Invalid combination of flags. You need to provide only one of these flags, either '--http-status-code' or '--error-status-codes'."
           }
         }
       },
       "connectivityProblem": {
-        "short": "Lets you quickly gather all diagnostic data for a URL required to identify a connectivity issue such as slow download and high response time.",
-        "long": "\nLets you quickly gather all diagnostic data for a URL required to identify a connectivity issue such as slow download and high response time. It simultaneously runs the 'grep', 'mtr', and 'curl' commands.",
+        "short": "Collects diagnostic data for a URL required to troubleshoot connectivity issues, such as slow download and high response time.",
+        "long": "\nThe Connectivity problems scenario collects diagnostic data for a URL required to troubleshoot connectivity issues, such as slow download and high response time. It simultaneously runs the 'grep', 'mtr', and 'curl' commands. The data include edge logs, DNS information, and MTR response.",
         "spinnerMessage": "Running Connectivity problems",
         "defaultError": "Failed to run Connectivity problems.",
         "clientLocation":"Optional. Unique identifier for an edge server location closest to your users. To get the value, run the 'edge-locations' command first.",
         "edgeServerIp": "Optional. IP of an edge server to use to run the command. If you don't know if an IP is the edge IP, run the 'verify-ip' command. You can use the edge server IP value from collected diagnostic data.",
-        "clientIp": "Optional. Client IP for the Connectivity problems command to start MTR from. You can use the edge server IP value from collected diagnostic data.",
+        "clientIp": "Optional. Client IP for Connectivity problems to start MTR from. You can use the edge server IP value from collected diagnostic data.",
         "requestHeader": "Optional. Customized headers for the cURL request in the format 'header: value'. You can provide multiple values.",
         "ipVersion": "Optional. IP version for the cURL to use, either 'IPV4' or 'IPV6'. By default set to 'IPv4'.",
-        "packetType": "Optional. Packet type for MTR to use, either 'tcp' or 'icmp'. By default set to 'tcp'.",
+        "packetType": "Optional. Packet type for MTR to use, either 'TCP' or 'ICMP'. By default set to 'TCP'.",
         "port": "Optional. Port number for MTR to use, either '80' and '443'. By default set to '80'.",
-        "runFromSiteShieldMap": "Optional. Run from site shield",
+        "runFromSiteShieldMap": "Optional. Runs the command from Site Shield.",
         "arg": {
           "invalid": {
             "url":"Invalid URL value. Verify the input and try again."
@@ -343,21 +344,21 @@
             "edgeServerIp": "Invalid edge server IP value. Verify the input and try again. To verify if an IP is an edge server IP, run the 'verify-ip' command.",
             "clientIp": "Invalid client IP. Verify the input and try again.",
             "port": "Invalid port value. Available values are '80' or '443'. Verify the input and try again.",
-            "packetType": "Invalid packet type value. Available values are 'tcp' or 'icmp'. Verify the input and try again.",
+            "packetType": "Invalid packet type value. Available values are 'TCP' or 'ICMP'. Verify the input and try again.",
             "ipVersion": "Invalid IP version value. Available values are 'IPV4' or 'IPV6'. Verify the input and try again."
           }
         }
       },
       "contentProblem": {
-        "short": "Lets you to diagnose problems such as Missing Object, Partial Download, Incorrect Object and Stale Content. ",
-        "long": "\nLets you to diagnose problems such as Missing Object, Partial Download, Incorrect Object and Stale Content. ",
+        "short": "Collects diagnostic data for a URL required to troubleshoot content issues, such as missing or incorrect objects or stale content being served and partial download.",
+        "long": "\nThe Content problems scenario collects diagnostic data for a URL required to troubleshoot content issues, such as missing or incorrect objects or stale content being served and partial download. It simultaneously runs the 'grep' and 'curl' commands. The data include edge logs and DNS information.",
         "spinnerMessage": "Running Content problems",
         "defaultError": "Failed to run Content problems.",
         "clientLocation":"Optional. Unique identifier for an edge server location closest to your users. To get the value, run the 'edge-locations' command first.",
-        "edgeServerIp": "Optional. IP of an edge server to use to run the command. If you don't know if an IP is the edge IP, run the `verify-ip` command. You can use the edge server IP value from collected diagnostic data.",
-        "requestHeader": "Optional. Customized headers for the cURL request in the format `header: value`. You can provide multiple values.",
-        "ipVersion": "Optional. either `IPV4` or `IPV6`. By default set to `IPv4`.",
-        "runFromSiteShieldMap": "Optional. Run from site shield",
+        "edgeServerIp": "Optional. IP of an edge server to use to run the command. If you don't know if an IP is the edge IP, run the 'verify-ip' command. You can use the edge server IP value from collected diagnostic data.",
+        "requestHeader": "Optional. Customized headers for the cURL request in the format 'header: value'. You can provide multiple values.",
+        "ipVersion": "Optional. IP version for the cURL to use, either 'IPV4' or 'IPV6'. By default set to 'IPv4'.",
+        "runFromSiteShieldMap": "Optional. Runs the command from Site Shield.",
         "arg": {
           "invalid": {
             "url":"Invalid URL value. Verify the input and try again."
@@ -365,9 +366,9 @@
         },
         "flag":{
           "invalid":{
-            "edgeServerIp": "Invalid edge server IP value. Verify the input and try again. To verify if an IP is an edge server IP, run the `verify-ip` command.",
-            "edgeLocation": "Invalid edge server location value. Verify the input and try again. To get the value, run the `edge-locations` command.",
-            "ipVersion": "Invalid IP version value. Available values are `IPV4` or `IPV6`. Verify the input and try again."
+            "edgeServerIp": "Invalid edge server IP value. Verify the input and try again. To verify if an IP is an edge server IP, run the 'verify-ip' command.",
+            "edgeLocation": "Invalid edge server location value. Verify the input and try again. To get the value, run the 'edge-locations' command.",
+            "ipVersion": "Invalid IP version value. Available values are 'IPV4' or 'IPV6'. Verify the input and try again."
           }
         }
       }

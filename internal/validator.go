@@ -435,10 +435,10 @@ func (validator Validator) ValidateConnectivityProblemsFields(args []string, por
 
 }
 
-func (validator Validator) ValidateGrepFields(args []string, grepRequest *GrepRequest, errorStatusCodeFlag, clientRequest, forwardRequest bool, httpStatusCodes []string) {
+func (validator Validator) ValidateGrepFields(args []string, grepRequest *GrepRequest, errorStatusCodeFlag, clientRequest, forwardRequest bool, httpStatusCodes []string, arls []string) {
 
 	if validator.jsonData != nil {
-		if len(args) > 0 || len(grepRequest.CpCodes) > 0 || len(grepRequest.Hostnames) > 0 || len(grepRequest.ClientIps) > 0 || len(httpStatusCodes) > 0 || len(grepRequest.Arls) > 0 ||
+		if len(args) > 0 || len(grepRequest.CpCodes) > 0 || len(grepRequest.Hostnames) > 0 || len(grepRequest.ClientIps) > 0 || len(httpStatusCodes) > 0 || len(arls) > 0 ||
 			len(grepRequest.UserAgents) > 0 || errorStatusCodeFlag || forwardRequest || !clientRequest {
 			AbortWithUsageAndMessage(validator.cmd, GetGlobalErrorMessage(FieldsNotRequired), CmdErrExitCode)
 		}
@@ -486,9 +486,13 @@ func (validator Validator) ValidateGrepFields(args []string, grepRequest *GrepRe
 		grepRequest.HttpStatusCodes = &HttpStatusCode{Comparison: "NOT_EQUALS", Value: []string{"200"}}
 	}
 
+	if len(arls) > 0 {
+		grepRequest.Arls = &Arl{Comparison: "CONTAINS", Value: arls}
+	}
+
 }
 
-func (validator Validator) ValidateTranslateErrorFields(args []string, errorTranslatorRequest *ErrorTranslatorRequest) {
+func (validator Validator) ValidateTranslateErrorFields(args []string, errorTranslatorRequest *ErrorTranslatorRequest, traceForwardLogs bool) {
 
 	if validator.jsonData != nil {
 		if len(args) > 0 {
@@ -502,6 +506,8 @@ func (validator Validator) ValidateTranslateErrorFields(args []string, errorTran
 		AbortWithUsageAndMessage(validator.cmd, fmt.Sprintf(GetGlobalErrorMessage(MissingArgs), 1, len(args)), CmdErrExitCode)
 	}
 	errorTranslatorRequest.ErrorCode = args[0]
+	errorTranslatorRequest.TraceForwardLogs = traceForwardLogs
+
 }
 
 func (validator Validator) ValidateContentProblemsFields(args []string, contentProblemsRequest *ContentProblemsRequest) {
